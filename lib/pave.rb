@@ -44,7 +44,7 @@ module Pave
     def symlink_folders
       symlinked_folders.each do |folder|
         sh "mv #{name}/#{folder} #{name}/app/#{folder}"
-        sh "ln -s #{name}/app/#{folder} #{name}/#{folder}"
+        sh "ln -s app/#{folder} #{name}/#{folder}"
       end
     end
 
