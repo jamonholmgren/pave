@@ -2,7 +2,7 @@
 
 require 'optparse'
 require 'methadone'
-require 'pave.rb'
+require './lib/pave.rb'
 
 class App
   include Methadone::Main
@@ -12,13 +12,14 @@ class App
     # your program code here
     # You can access CLI options via
     # the options Hash
+    puts "Hi."
   end
 
   # supplemental methods here
 
   # Declare command-line interface here
 
-  # description "one line description of your app"
+  # description "Command line for Concrete5 websites."
   #
   # Accept flags via:
   # on("--flag VAL","Some flag")
