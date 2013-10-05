@@ -18,6 +18,10 @@ Provides a set of command line tools for Concrete5.
 4. Builds an app folder of commonly used folders (symlinked into the root folder so Concrete5 can find them)
 5. Initializes a Git repo and adds the first ("Initial") commit.
 
+    $ pave update
+
+Updates pave to the latest version.
+
 ## TODO
 
 1. Set up virtual host (`pave virtualhost mywebsite.dev`)

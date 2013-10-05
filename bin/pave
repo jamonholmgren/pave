@@ -17,6 +17,7 @@ class App
 
     case command.to_sym
     when :new then Pave::Concrete.create(opt)
+    when :update then update_gem
     when :help then show_help
     when :virtualhost then info "`virtualhost` command not implemented yet."
     when :dbcreate then info "`dbcreate` command not implemented yet."
@@ -27,10 +28,16 @@ class App
     0 # Good!
   end
 
+  def self.update_gem
+    sh "gem update pave"
+  end
+
   def self.show_help
     info "Commands:"
     info "  new <websitename>"
     info "    Downloads and configures a new Concrete5 website."
+    info "  update"
+    info "    Updates the pave gem to the latest version."
     info ""
     info "Future commands (not implemented yet):"
     info "  virtualhost <domain>"
