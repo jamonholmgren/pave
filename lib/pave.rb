@@ -21,6 +21,7 @@ module Pave
     def setup
       clone_concrete5
       set_up_app_folder
+      initialize_git
     end
 
     def clone_concrete5
@@ -39,6 +40,13 @@ module Pave
 
       symlink_folders
       remove_extra_folders
+    end
+
+    def initialize_git
+      info "* Setting up git..."
+      sh "echo 'files/cache/*' > #{name}/.gitignore"
+      sh "echo 'files/tmp/*' >> #{name}/.gitignore"
+      sh "cd #{name} && git init && git add -A && git commit -m 'Initial'"
     end
 
     def symlink_folders
