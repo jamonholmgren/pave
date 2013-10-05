@@ -23,6 +23,7 @@ class App
     when :virtualhost then info "`virtualhost` command not implemented yet."
     when :dbcreate then info "`dbcreate` command not implemented yet."
     when :db then info "`db` command not implemented yet."
+    when :version then info "pave version #{Pave::VERSION} - by Jamon Holmgren"
     else show_help
     end
 

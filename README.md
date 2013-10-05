@@ -22,6 +22,10 @@ Provides a set of command line tools for Concrete5.
 
 Updates pave to the latest version.
 
+    $ pave version
+
+Outputs the current version.
+
 ## TODO
 
 1. Set up virtual host (`pave virtualhost mywebsite.dev`)
