@@ -11,7 +11,6 @@ module Pave
       info ""
       info "Setting up Concrete5 in folder #{name}."
       new(name).setup
-      0
     end
 
     def initialize(name)
@@ -23,12 +22,14 @@ module Pave
       set_up_app_folder
       initialize_git
       create_virtual_host
+      self
     end
 
     def clone_concrete5
       info "* Downloading Concrete5 version 5.6.2.1..."
       sh "curl http://www.concrete5.org/download_file/-/view/58379/8497 -o c5.zip > /dev/null"
-      info "* Download complete. Unzipping..."
+      info ""
+      info "* Unzipping..."
       sh "unzip c5.zip"
       sh "rm c5.zip"
       sh "mv concrete5.6.2.1 #{name}"
