@@ -13,9 +13,6 @@ class App
     # your program code here
     # You can access CLI options via
     # the options Hash
-    info "pave - Command line tools for Concrete5."
-    info "By Jamon Holmgren"
-
     case command.to_sym
     when :new then Pave::Concrete.create(opt)
     when :update then update_gem
@@ -31,10 +28,15 @@ class App
   end
 
   def self.update_gem
+    info "Updating pave..."
     sh "gem update pave"
+    info "Updated."
   end
 
   def self.show_help
+    info "pave - Command line tools for Concrete5."
+    info "By Jamon Holmgren"
+    info ""
     info "Commands:"
     info "  new <websitename>"
     info "    Downloads and configures a new Concrete5 website."
@@ -55,6 +57,9 @@ class App
   end
 
   def self.create(name)
+    info "pave - Command line tools for Concrete5."
+    info "By Jamon Holmgren"
+    info ""
     info "Creating #{name}..."
     sleep 2
     info "Done."
