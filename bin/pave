@@ -2,24 +2,42 @@
 
 require 'optparse'
 require 'methadone'
-require './lib/pave.rb'
+require 'pave.rb'
 
 class App
   include Methadone::Main
   include Methadone::CLILogging
 
-  main do # Add args you want: |like,so|
+  main do |command, opt| # Add args you want: |like,so|
     # your program code here
     # You can access CLI options via
     # the options Hash
-    puts "Hi."
+    info "pave - Command line tools for Concrete5."
+    info "By Jamon Holmgren"
+
+    case command.to_sym
+    when :new then Pave::Concrete.create(opt)
+    else show_help
+    end
+
+    0 # Good!
+  end
+
+  def self.show_help
+    info "Invalid."
+  end
+
+  def self.create(name)
+    info "Creating #{name}..."
+    sleep 2
+    info "Done."
   end
 
   # supplemental methods here
 
   # Declare command-line interface here
 
-  # description "Command line for Concrete5 websites."
+  description "Command line for Concrete5 websites."
   #
   # Accept flags via:
   # on("--flag VAL","Some flag")
@@ -31,10 +49,10 @@ class App
   # Or, just call OptionParser methods on opts
   #
   # Require an argument
-  # arg :some_arg 
+  arg :command
   #
   # # Make an argument optional
-  # arg :optional_arg, :optional
+  arg :opt, :optional
 
   version Pave::VERSION
 
