@@ -7,6 +7,7 @@ require 'pave.rb'
 class App
   include Methadone::Main
   include Methadone::CLILogging
+  include Methadone::SH
 
   main do |command, opt| # Add args you want: |like,so|
     # your program code here
