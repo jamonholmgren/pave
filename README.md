@@ -12,6 +12,12 @@ Provides a set of command line tools for Concrete5.
 
     $ pave new mywebsite
 
+This will download Concrete 5.6.2.1, unzip it into the `mywebsite`
+folder, remove extra folders, and build an app folder of commonly
+used folders (symlinked into the root folder so Concrete5 can find them).
+
+It also initializes a Git repo and adds the first ("Initial") commit.
+
 ## Contributing
 
 0. Create an issue explaining what you'd like to do and get feedback
