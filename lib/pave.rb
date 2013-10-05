@@ -53,13 +53,10 @@ module Pave
         :blocks, 
         :elements, 
         :jobs,
-        :libraries,
-        :models,
-        :packages,
         :page_types,
         :single_pages,
         :themes,
-        :tools,
+        :packages,
       ]
     end
 
@@ -69,6 +66,9 @@ module Pave
 
     def removed_folders
       [ 
+        :tools,
+        :libraries,
+        :models,
         :css,
         :controllers,
         :helpers,
