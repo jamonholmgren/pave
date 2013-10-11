@@ -21,6 +21,7 @@ class App
     when :dbcreate then info "`dbcreate` command not implemented yet."
     when :db then info "`db` command not implemented yet."
     when :version then info "pave version #{Pave::VERSION} - by Jamon Holmgren"
+    when :virtualhost then virtualhost_setup opt
     else show_help
     end
 
@@ -63,6 +64,13 @@ class App
     info "Creating #{name}..."
     sleep 2
     info "Done."
+  end
+
+  def self.virtualhost_setup(host)
+    return info "Please specify a host name (e.g. pave virtualhost mydomain.site)." unless host.to_s.length > 0
+
+    info "Setting up virtual host for current directory on #{host}."
+    
   end
 
   # supplemental methods here
