@@ -1,94 +1,64 @@
 #!/usr/bin/env ruby
 
-require 'optparse'
-require 'methadone'
-require 'pave.rb'
+require "pave.rb"
 
-class App
-  include Methadone::Main
-  include Methadone::CLILogging
-  include Methadone::SH
+program :name, "Pave"
+program :version, Pave::VERSION
+program :description, "Provides a set of command line tools for Concrete5."
+program :help, "Authors", "Jamon Holmgren <jamon@clearsightstudio.com>, Ryan Linton <ryanl@clearsightstudio.com>"
 
-  main do |command, opt| # Add args you want: |like,so|
-    # your program code here
-    # You can access CLI options via
-    # the options Hash
-    case command.to_sym
-    when :new then Pave::Concrete.create(opt)
-    when :update then update_gem
-    when :help then show_help
-    when :virtualhost then info "`virtualhost` command not implemented yet."
-    when :dbcreate then info "`dbcreate` command not implemented yet."
-    when :db then info "`db` command not implemented yet."
-    when :version then info "pave version #{Pave::VERSION} - by Jamon Holmgren"
-    else show_help
-    end
-
-    0 # Good!
+command :new do |c|
+  c.syntax = "pave new APP_PATH [options]"
+  c.description = "Create a new Concrete5 project."
+  c.action do |args, options|
+    Pave::Concrete.create(args.first, options)
   end
+end
 
-  def self.update_gem
-    info "Updating pave..."
-    sh "gem update pave"
-    info "Updated."
+command :update do |c|
+  c.syntax = "pave update"
+  c.description = "Update pave to the latest version."
+  c.action do
+    Pave.update
   end
+end
 
-  def self.show_help
-    info "pave - Command line tools for Concrete5."
-    info "By Jamon Holmgren"
-    info ""
-    info "Commands:"
-    info "  new <websitename>"
-    info "    Downloads and configures a new Concrete5 website."
-    info "  update"
-    info "    Updates the pave gem to the latest version."
-    info ""
-    info "Future commands (not implemented yet):"
-    info "  virtualhost <domain>"
-    info "    Sets up a new virtualhost on Apache, pointing to the current folder."
-    info "  dbcreate <dbname>"
-    info "    Sets up a new database on the local MySQL instance."
-    info "  db dump"
-    info "    Dumps the current database to a local file."
-    info "  db download"
-    info "    Downloads the remote database and replaces the local database with it."
-    info "  db upload"
-    info "    Uploads the local database to the remote one, replacing what's there."
+command :virtualhost do |c|
+  c.syntax = "pave virtualhost APP_URL"
+  c.description = "Setup virtual host for Concrete5 project."
+  c.action do |args|
+    "`virtualhost` command not implemented yet."
   end
+end
 
-  def self.create(name)
-    info "pave - Command line tools for Concrete5."
-    info "By Jamon Holmgren"
-    info ""
-    info "Creating #{name}..."
-    sleep 2
-    info "Done."
+command :"db:create" do |c|
+  c.syntax = "pave db:create"
+  c.description = "Create the Concrete5 project's database."
+  c.action do |args|
+    say "`db:create` command not implemented yet."
   end
+end
 
-  # supplemental methods here
+command :"db:dump" do |c|
+  c.syntax = "pave db:dump"
+  c.description = "Create SQL dump of the Concrete5 project's database."
+  c.action do |args|
+    say "`db:dump` command not implemented yet."
+  end
+end
 
-  # Declare command-line interface here
+command :"db:download" do |c|
+  c.syntax = "pave db:download"
+  c.description = "Download the Concrete5 project's live database and replace local database."
+  c.action do |args|
+    say "`db:download` command not implemented yet."
+  end
+end
 
-  description "Command line for Concrete5 websites."
-  #
-  # Accept flags via:
-  # on("--flag VAL","Some flag")
-  # options[flag] will contain VAL
-  #
-  # Specify switches via:
-  # on("--[no-]switch","Some switch")
-  #
-  # Or, just call OptionParser methods on opts
-  #
-  # Require an argument
-  arg :command
-  #
-  # # Make an argument optional
-  arg :opt, :optional
-
-  version Pave::VERSION
-
-  use_log_level_option
-
-  go!
+command :"db:upload" do |c|
+  c.syntax = "pave db:upload"
+  c.description = "Upload the Concrete5 project's local database and replace the live database."
+  c.action do |args|
+    say "`db:upload` command not implemented yet."
+  end
 end
