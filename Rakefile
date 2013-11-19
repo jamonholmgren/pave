@@ -23,15 +23,15 @@ def dump_load_path
     puts "Found in #{path}"
   end
 end
-require 'bundler'
-require 'rake/clean'
+require "bundler"
+require "rake/clean"
 
-require 'rake/testtask'
+require "rake/testtask"
 
-require 'cucumber'
-require 'cucumber/rake/task'
-gem 'rdoc' # we need the installed RDoc gem, not the system one
-require 'rdoc/task'
+require "cucumber"
+require "cucumber/rake/task"
+gem "rdoc" # we need the installed RDoc gem, not the system one
+require "rdoc/task"
 
 include Rake::DSL
 
@@ -39,13 +39,13 @@ Bundler::GemHelper.install_tasks
 
 
 Rake::TestTask.new do |t|
-  t.pattern = 'test/tc_*.rb'
+  t.pattern = "test/tc_*.rb"
 end
 
 Rake::RDocTask.new do |rd|
-  
+
   rd.main = "README.rdoc"
-  
+
   rd.rdoc_files.include("lib/**/*.rb","bin/**/*")
 end
 
