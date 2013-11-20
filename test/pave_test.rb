@@ -1,4 +1,4 @@
-require 'test/unit'
+require "test/unit"
 
 class PaveTest < Test::Unit::TestCase
   def test_is_module
