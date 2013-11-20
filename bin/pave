@@ -7,6 +7,8 @@ program :version, Pave::VERSION
 program :description, "Provides a set of command line tools for Concrete5."
 program :help, "Authors", "Jamon Holmgren <jamon@clearsightstudio.com>, Ryan Linton <ryanl@clearsightstudio.com>"
 
+default_command :help
+
 command :new do |c|
   c.syntax = "pave new APP_PATH [options]"
   c.description = "Create a new Concrete5 project."
