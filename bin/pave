@@ -29,7 +29,7 @@ command :virtualhost do |c|
   c.syntax = "pave virtualhost APP_URL"
   c.description = "Setup virtual host for Concrete5 project."
   c.action do |args|
-    "`virtualhost` command not implemented yet."
+    say "`virtualhost` command not implemented yet."
   end
 end
 alias_command :vh, :virtualhost

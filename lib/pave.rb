@@ -7,7 +7,7 @@ module Pave
   def update
     say "Updating pave..."
     `gem update pave`
-    say "Updated."
+    $? == 0 ? say "Updated" : say "Update failed. Run `gem update pave` manually."
   end
   module_function :update
 end

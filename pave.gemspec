@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "pave"
   spec.version       = Pave::VERSION
   spec.authors       = ["Jamon Holmgren", "Ryan Linton"]
-  spec.email         = ["jamon@clearsightstudio.com"]
+  spec.email         = ["jamon@clearsightstudio.com", "ryanl@clearsightstudio.com"]
   spec.description   = %q{Provides a set of command line tools for Concrete5.}
   spec.summary       = %q{Provides a set of command line tools for Concrete5.}
   spec.homepage      = "https://github.com/jamonholmgren/pave"
