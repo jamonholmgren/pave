@@ -30,6 +30,7 @@ command :virtualhost do |c|
     "`virtualhost` command not implemented yet."
   end
 end
+alias_command :vh, :virtualhost
 
 command :"db:create" do |c|
   c.syntax = "pave db:create"
