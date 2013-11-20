@@ -48,12 +48,16 @@ module Pave
       sh "cd #{name} && git init && git add -A && git commit -m 'Initial'"
     end
 
+    def sudo?
+      `whoami` == "root"
+    end
+
     def create_virtual_host
-      # /private/etc/apache2/extra/httpd-vhosts.conf
-      # <VirtualHost *:80>
-      #   ServerName "mywebsite.site"
-      #   DocumentRoot "<pwd>/mywebsite.dev"
-      # </VirtualHost>
+      if sudo?
+        Pave::VirtualHost.new("#{name}.site").create_vhost
+      else
+        say "Virtual host not set up. Run `sudo pave vh:create #{name}.site` to create it."
+      end
     end
 
     def symlink_folders
