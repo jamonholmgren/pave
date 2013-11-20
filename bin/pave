@@ -25,14 +25,51 @@ command :update do |c|
   end
 end
 
-command :virtualhost do |c|
-  c.syntax = "pave virtualhost APP_URL"
+command :"virtualhost:create" do |c|
+  c.syntax = "pave virtualhost:create VHOST"
   c.description = "Setup virtual host for Concrete5 project."
   c.action do |args|
-    say "`virtualhost` command not implemented yet."
+    Pave::VirtualHost.new(args.first).create_vhost
   end
 end
-alias_command :vh, :virtualhost
+alias_command :"vh:create", :"virtualhost:create"
+
+command :"virtualhost:remove" do |c|
+  c.syntax = "pave virtualhost:remove VHOST"
+  c.description = "Delete virtual host."
+  c.action do |args|
+    Pave::VirtualHost.new(args.first).remove_vhost
+  end
+end
+alias_command :"vh:remove", :"virtualhost:remove"
+alias_command :"virtualhost:delete", :"virtualhost:remove"
+alias_command :"vh:delete", :"virtualhost:remove"
+
+command :"virtualhost:backup" do |c|
+  c.syntax = "pave virtualhost:backup VHOST"
+  c.description = "Back up virtual hosts file. Restore with `pave virtualhost:restore`."
+  c.action do |args|
+    Pave::VirtualHost.new(args.first).backup_vhost
+  end
+end
+alias_command :"vh:backup", :"virtualhost:backup"
+
+command :"virtualhost:restore" do |c|
+  c.syntax = "pave virtualhost:restore VHOST"
+  c.description = "Restore previously backed up virtual hosts file."
+  c.action do |args|
+    Pave::VirtualHost.new(args.first).restore_vhost
+  end
+end
+alias_command :"vh:restore", :"virtualhost:restore"
+
+command :"virtualhost:restart" do |c|
+  c.syntax = "pave virtualhost:restart VHOST"
+  c.description = "Restarts apache."
+  c.action do |args|
+    Pave::VirtualHost.new.restart_apache
+  end
+end
 
 command :"db:create" do |c|
   c.syntax = "pave db:create"
