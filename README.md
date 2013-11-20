@@ -24,30 +24,18 @@ This:
 
 Other commands:
 
-    $ pave update
-
-Updates pave to the latest version.
-
-    $ pave version
-
-Outputs the current version.
-
-    $ pave help
+    $ pave --help
     
 Outputs common tasks that pave can do.
 
 ## TODO
 
-1. Set up virtual host (`pave virtualhost mywebsite.dev`)
-2. ? Create database (`pave database mydatabase`)
-3. Tell user to go set up Concrete5 in-browser once virtual host and db is set up
-4. Uninstall? `pave remove mywebsite` (including virtual host)
-5. Just remove virtual host? `pave rmvirtualhost mywebsite.dev`
-6. Do database dumps. `pave db dump`
-7. Do live database download & replace local one. `pave db download` (confirmation first)
-8. Do local database upload & replace remote one. `pave db upload` (confirmation first)
-9. 
-
+1. ? Create database (`pave database mydatabase`)
+1. Tell user to go set up Concrete5 in-browser once virtual host and db is set up
+1. Uninstall? `pave remove mywebsite` (including virtual host)
+1. Do database dumps. `pave db dump`
+1. Do live database download & replace local one. `pave db download` (confirmation first)
+1. Do local database upload & replace remote one. `pave db upload` (confirmation first)
 
 
 ## Contributing
