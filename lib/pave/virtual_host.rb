@@ -13,6 +13,7 @@ module Pave
 
     def create_vhost
       return say "No virtual host backup found. Run `pave vh:backup` before adding a virtual host." unless check_backup
+      return say "No host name provided. Run `pave help` for more details." unless hostname.size > 0
 
       add_vhost_to_conf && add_hosts_entry && restart_apache && say("Created virtual host for #{hostname}.")
     end
@@ -149,22 +150,3 @@ module Pave
 
   end
 end
-
-
-# /etc/apache2/extra/httpd-vhosts.conf
-# <Directory "/Users/jh/Code/Web/fishalaskamagazine.dev/">
-#   Allow From All
-#   AllowOverride All
-#   Options +Indexes
-# </Directory>
-# <VirtualHost *:80>
-#   ServerName "fishalaskamag.site"
-#   DocumentRoot "/Users/jh/Code/Web/fishalaskamagazine.dev"
-# </VirtualHost>
-
-# Update hosts file with IP
-# sudo apachectl restart
-
-
-
-  

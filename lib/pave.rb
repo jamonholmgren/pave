@@ -2,6 +2,7 @@ require "commander/import"
 require "pave/version"
 require "pave/shell"
 require "pave/concrete"
+require "pave/database"
 require "pave/virtual_host"
 
 module Pave

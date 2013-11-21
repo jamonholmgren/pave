@@ -6,6 +6,7 @@ module Pave
 
     def self.create(name, options)
       say ""
+      return say "Options should be given after the application name. For details run: `pave help`" unless name.size > 0
       say "Setting up Concrete5 in folder #{name}."
       new(name).setup
     end
@@ -39,6 +40,7 @@ module Pave
 
       symlink_folders
       remove_extra_folders
+      modify_folder_permissions
     end
 
     def initialize_git
@@ -48,18 +50,35 @@ module Pave
       sh "cd #{name} && git init && git add -A && git commit -m 'Initial'"
     end
 
+    def sudo?
+      `whoami` == "root"
+    end
+
     def create_virtual_host
-      # /private/etc/apache2/extra/httpd-vhosts.conf
-      # <VirtualHost *:80>
-      #   ServerName "mywebsite.site"
-      #   DocumentRoot "<pwd>/mywebsite.dev"
-      # </VirtualHost>
+      if sudo?
+        Pave::VirtualHost.new("#{name}.site").create_vhost
+      else
+        say "Virtual host not set up. Run `sudo pave vh:create #{name}.site` to create it."
+      end
+    end
+
+    def modify_folder_permissions
+      world_writable_folders.each do |folder|
+        sh "chmod -R 777 #{folder}"
+      end
+    end
+
+    def world_writable_folders
+      [
+        :config,
+        :packages,
+        :files
+      ]
     end
 
     def symlink_folders
       symlinked_folders.each do |folder|
-        sh "mv #{name}/#{folder} #{name}/app/#{folder}"
-        sh "ln -s app/#{folder} #{name}/#{folder}"
+        sh "ln -s #{name}/#{folder} app/#{folder}"
       end
     end
 
