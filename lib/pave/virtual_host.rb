@@ -13,6 +13,7 @@ module Pave
 
     def create_vhost
       return say "No virtual host backup found. Run `pave vh:backup` before adding a virtual host." unless check_backup
+      return say "No host name provided. Run `pave help` for more details." unless hostname.size > 0
 
       add_vhost_to_conf && add_hosts_entry && restart_apache && say("Created virtual host for #{hostname}.")
     end
