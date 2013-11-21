@@ -26,36 +26,49 @@ command :update do |c|
 end
 
 command :setup do |c|
-  c.syntax = "pave setup"
+  c.syntax = "pave setup APP_PATH"
   c.description = "Setup app folder for project."
-  c.action do
-    Pave::Concrete.set_up_app_folder
+  c.action do |args|
+    name = args.first ? args.first : Dir.getwd
+    Pave::Concrete.new(name).set_up_app_folder
   end
 end
 alias_command :"setup:app", :setup
 
+command :"setup:git" do |c|
+  c.syntax = "pave setup:git APP_PATH"
+  c.description = "Setup git repo for project."
+  c.action do |args|
+    name = args.first ? args.first : Dir.getwd
+    Pave::Concrete.new(name).initialize_git
+  end
+end
+
 command :"setup:symlinks" do |c|
-  c.syntax = "pave setup:symlinks"
+  c.syntax = "pave setup:symlinks APP_PATH"
   c.description = "Setup app folder symlinks for project."
-  c.action do
-    Pave::Concrete.symlink_folders
+  c.action do |args|
+    name = args.first ? args.first : Dir.getwd
+    Pave::Concrete.new(name).symlink_folders
   end
 end
 
 command :"setup:permissions" do |c|
-  c.syntax = "pave setup:permissions"
+  c.syntax = "pave setup:permissions APP_PATH"
   c.description = "Setup folder permissions for project."
-  c.action do
-    Pave::Concrete.modify_folder_permissions
+  c.action do |args|
+    name = args.first ? args.first : Dir.getwd
+    Pave::Concrete.new(name).modify_folder_permissions
   end
 end
 alias_command :"setup:chmod", :"setup:permissions"
 
 command :"setup:clean" do |c|
-  c.syntax = "pave setup:cleanup"
+  c.syntax = "pave setup:cleanup APP_PATH"
   c.description = "Remove unused folders from project."
-  c.action do
-    Pave::Concrete.remove_extra_folders
+  c.action do |args|
+    name = args.first ? args.first : Dir.getwd
+    Pave::Concrete.new(name).remove_extra_folders
   end
 end
 alias_command :"setup:cleanup", :"setup:clean"
