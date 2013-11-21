@@ -40,6 +40,7 @@ module Pave
 
       symlink_folders
       remove_extra_folders
+      modify_folder_permissions
     end
 
     def initialize_git
@@ -59,6 +60,20 @@ module Pave
       else
         say "Virtual host not set up. Run `sudo pave vh:create #{name}.site` to create it."
       end
+    end
+
+    def modify_folder_permissions
+      world_writable_folders.each do |folder|
+        sh "chmod -R 777 #{folder}"
+      end
+    end
+
+    def world_writable_folders
+      [
+        :config,
+        :packages,
+        :files
+      ]
     end
 
     def symlink_folders
