@@ -70,6 +70,7 @@ command :"virtualhost:restart" do |c|
     Pave::VirtualHost.new.restart_apache
   end
 end
+alias_command :"vh:restart", :"virtualhost:restart"
 
 command :"db:create" do |c|
   c.syntax = "pave db:create"

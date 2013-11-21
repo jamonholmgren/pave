@@ -6,6 +6,7 @@ module Pave
 
     def self.create(name, options)
       say ""
+      return say "Options should be given after the application name. For details run: `pave help`" unless name.size > 0
       say "Setting up Concrete5 in folder #{name}."
       new(name).setup
     end
@@ -62,8 +63,7 @@ module Pave
 
     def symlink_folders
       symlinked_folders.each do |folder|
-        sh "mv #{name}/#{folder} #{name}/app/#{folder}"
-        sh "ln -s app/#{folder} #{name}/#{folder}"
+        sh "ln -s #{name}/#{folder} app/#{folder}"
       end
     end
 
