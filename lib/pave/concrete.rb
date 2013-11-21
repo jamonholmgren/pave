@@ -45,8 +45,12 @@ module Pave
 
     def initialize_git
       say "* Setting up git..."
-      sh "echo 'files/cache/*' > #{name}/.gitignore"
+      sh "echo 'files/avatars/*' > #{name}/.gitignore"
+      sh "echo 'files/cache/*' >> #{name}/.gitignore"
+      sh "echo 'files/incoming/*' >> #{name}/.gitignore"
+      sh "echo 'files/thumbnails/*' >> #{name}/.gitignore"
       sh "echo 'files/tmp/*' >> #{name}/.gitignore"
+      sh "echo 'files/trash/*' >> #{name}/.gitignore"
       sh "cd #{name} && git init && git add -A && git commit -m 'Initial'"
     end
 
