@@ -129,7 +129,7 @@ command :"db:create" do |c|
 end
 
 command :"db:dump" do |c|
-  c.syntax = "pave db:dump"
+  c.syntax = "pave db:dump DATABASE"
   c.description = "Create SQL dump of the project's database."
   c.action do |args|
     Pave::Database.new(args.first).dump
