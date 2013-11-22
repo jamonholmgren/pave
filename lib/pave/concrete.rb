@@ -77,8 +77,10 @@ module Pave
     end
 
     def modify_folder_permissions
-      world_writable_folders.each do |folder|
-        sh "chmod -R 777 #{folder}"
+      if sudo?
+        world_writable_folders.each{ |folder| sh "chmod -R 777 #{folder}" }
+      else
+        say "Folder permissions not set up. Run `sudo pave setup:permissions` to set them."
       end
     end
 
