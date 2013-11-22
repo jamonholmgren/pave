@@ -4,7 +4,7 @@ module Pave
 
     attr_accessor :name
 
-    def self.create(name, options)
+    def self.create(name)
       say ""
       return say "Options should be given after the application name. For details run: `pave help`" unless name.size > 0
       say "Setting up Concrete5 in folder #{name}."

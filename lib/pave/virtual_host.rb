@@ -11,6 +11,12 @@ module Pave
       @hostname = host
     end
 
+    def self.restart_apache
+      `sudo apachectl restart`
+      say "Apache restarted."
+      true
+    end
+
     def create_vhost
       return say "No virtual host backup found. Run `pave vh:backup` before adding a virtual host." unless check_backup
       return say "No host name provided. Run `pave help` for more details." unless hostname.size > 0
@@ -44,12 +50,6 @@ module Pave
       restart_apache
 
       say "Restored vhosts conf and host file."
-    end
-
-    def restart_apache
-      code = sh "sudo apachectl restart"
-      say "Apache restarted."
-      true
     end
 
     private
