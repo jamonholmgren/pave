@@ -45,13 +45,23 @@ module Pave
 
     def initialize_git
       say "* Setting up git..."
-      sh "echo 'files/avatars/*' > #{name}/.gitignore"
-      sh "echo 'files/cache/*' >> #{name}/.gitignore"
-      sh "echo 'files/incoming/*' >> #{name}/.gitignore"
-      sh "echo 'files/thumbnails/*' >> #{name}/.gitignore"
-      sh "echo 'files/tmp/*' >> #{name}/.gitignore"
-      sh "echo 'files/trash/*' >> #{name}/.gitignore"
+      sh "touch #{name}/.gitignore"
+      gitignored_folders.each{ |folder| sh "echo '#{folder}' >> #{name}/.gitignore" }
+      symlinked_folders.each{ |folder| sh "touch #{name}/app/#{folder}.keep" }
+      sh "touch #{name}/files/.keep"
+      sh "touch #{name}/updates/.keep"
       sh "cd #{name} && git init && git add -A && git commit -m 'Initial'"
+    end
+
+    def gitignored_folders
+      [
+        "files/avatars/*",
+        "files/cache/*",
+        "files/incoming/*",
+        "files/thumbnails/*",
+        "files/tmp/*",
+        "files/trash/*"
+      ]
     end
 
     def sudo?
