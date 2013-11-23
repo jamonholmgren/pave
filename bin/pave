@@ -112,33 +112,33 @@ end
 alias_command :"vh:restore", :"virtualhost:restore"
 
 command :"virtualhost:restart" do |c|
-  c.syntax = "pave virtualhost:restart VHOST"
+  c.syntax = "pave virtualhost:restart"
   c.description = "Restarts apache."
-  c.action do |args|
-    Pave::VirtualHost.new.restart_apache
+  c.action do
+    Pave::VirtualHost.restart_apache
   end
 end
 alias_command :"vh:restart", :"virtualhost:restart"
 
 command :"db:create" do |c|
-  c.syntax = "pave db:create"
+  c.syntax = "pave db:create DATABASE"
   c.description = "Create the Concrete5 project's database."
   c.action do |args|
-    say "`db:create` command not implemented yet."
+    Pave::Database.create(args.first)
   end
 end
 
 command :"db:dump" do |c|
-  c.syntax = "pave db:dump"
-  c.description = "Create SQL dump of the Concrete5 project's database."
+  c.syntax = "pave db:dump DATABASE"
+  c.description = "Create SQL dump of the project's database."
   c.action do |args|
-    say "`db:dump` command not implemented yet."
+    Pave::Database.new(args.first).dump
   end
 end
 
 command :"db:download" do |c|
   c.syntax = "pave db:download"
-  c.description = "Download the Concrete5 project's live database and replace local database."
+  c.description = "Download the project's live database and replace local database."
   c.action do |args|
     say "`db:download` command not implemented yet."
   end
@@ -146,7 +146,7 @@ end
 
 command :"db:upload" do |c|
   c.syntax = "pave db:upload"
-  c.description = "Upload the Concrete5 project's local database and replace the live database."
+  c.description = "Upload the project's local database and replace the live database."
   c.action do |args|
     say "`db:upload` command not implemented yet."
   end
