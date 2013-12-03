@@ -47,7 +47,7 @@ module Pave
       say "* Setting up git..."
       sh "touch #{name}/.gitignore"
       gitignored_folders.each{ |folder| sh "echo '#{folder}' >> #{name}/.gitignore" }
-      symlinked_folders.each{ |folder| sh "touch #{name}/app/#{folder}.keep" }
+      symlinked_folders.each{ |folder| sh "touch #{name}/app/#{folder}/.keep" }
       sh "touch #{name}/files/.keep"
       sh "touch #{name}/updates/.keep"
       sh "cd #{name} && git init && git add -A && git commit -m 'Initial'"
@@ -94,7 +94,7 @@ module Pave
 
     def symlink_folders
       symlinked_folders.each do |folder|
-        sh "ln -s #{name}/#{folder} app/#{folder}"
+        sh "ln -nfs #{name}/#{folder} #{name}/app/#{folder}"
       end
     end
 

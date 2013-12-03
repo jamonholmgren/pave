@@ -12,8 +12,8 @@ default_command :help
 command :new do |c|
   c.syntax = "pave new APP_PATH [options]"
   c.description = "Create a new Concrete5 project."
-  c.action do |args, options|
-    Pave::Concrete.create(args.first, options)
+  c.action do |args|
+    Pave::Concrete.create(args.first)
   end
 end
 
