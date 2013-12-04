@@ -89,11 +89,7 @@ module Pave
     end
 
     def world_writable_folders
-      [
-        :config,
-        :packages,
-        :files
-      ]
+      %w{ config packages files }
     end
 
     def gitkeep_folders
