@@ -17,9 +17,9 @@ module Pave
 
     def setup
       clone_concrete5
-      set_up_app_folder
-      initialize_git
-      create_virtual_host
+      set_up_folders
+      set_up_git
+      # create_virtual_host
       self
     end
 
@@ -34,23 +34,20 @@ module Pave
       say "* Concrete5 downloaded and unzipped into ./#{name}."
     end
 
-    def set_up_app_folder
+    def set_up_folders
       say "* Setting up folders..."
-      sh "mkdir #{name}/app"
-
-      symlink_folders
       remove_extra_folders
       modify_folder_permissions
     end
 
-    def initialize_git
+    def set_up_git
       say "* Setting up git..."
       sh "touch #{name}/.gitignore"
       gitignored_folders.each{ |folder| sh "echo '#{folder}' >> #{name}/.gitignore" }
-      symlinked_folders.each{ |folder| sh "touch #{name}/app/#{folder}/.keep" }
+      gitkeep_folders.each{ |folder| sh "touch #{name}/#{folder}/.keep" }
       sh "touch #{name}/files/.keep"
       sh "touch #{name}/updates/.keep"
-      sh "cd #{name} && git init && git add -A && git commit -m 'Initial'"
+      # sh "cd #{name} && git init && git add -A && git commit -m 'Initial'"
     end
 
     def gitignored_folders
@@ -64,23 +61,21 @@ module Pave
       ]
     end
 
-    def sudo?
-      `whoami` == "root"
-    end
-
-    def create_virtual_host
-      if sudo?
-        Pave::VirtualHost.new("#{name}.site").create_vhost
-      else
-        say "Virtual host not set up. Run `sudo pave vh:create #{name}.site` to create it."
-      end
-    end
+    # def create_virtual_host
+    #   say "* Setting up virtual host..."
+    #   if Pave::VirtualHost.new("#{name}.site").create_vhost
+    #     say "Successfully setup virtual host #{name}.site."
+    #   else
+    #     say "Virtual host not set up. Run `pave vh:create #{name}.site` to create it."
+    #   end
+    # end
 
     def modify_folder_permissions
-      if sudo?
-        world_writable_folders.each{ |folder| sh "chmod -R 777 #{folder}" }
+      say "* Modifying folder permissions..."
+      if world_writable_folders.each{ |folder| sh "sudo chmod -R 777 #{folder}" }.count{ |x| x != 0 } == 0
+        say "Successfully modified folder permissions."
       else
-        say "Folder permissions not set up. Run `sudo pave setup:permissions` to set them."
+        say "Folder permissions not set up. Run `pave setup:permissions` to set them."
       end
     end
 
@@ -92,13 +87,7 @@ module Pave
       ]
     end
 
-    def symlink_folders
-      symlinked_folders.each do |folder|
-        sh "ln -nfs #{name}/#{folder} #{name}/app/#{folder}"
-      end
-    end
-
-    def symlinked_folders
+    def gitkeep_folders
       [
         :blocks,
         :elements,

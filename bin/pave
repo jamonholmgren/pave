@@ -27,10 +27,10 @@ end
 
 command :setup do |c|
   c.syntax = "pave setup APP_PATH"
-  c.description = "Setup app folder for project."
+  c.description = "Setup folders for project."
   c.action do |args|
     name = args.first || Dir.getwd
-    Pave::Concrete.new(name).set_up_app_folder
+    Pave::Concrete.new(name).set_up_folders
   end
 end
 alias_command :"setup:app", :setup
@@ -40,16 +40,7 @@ command :"setup:git" do |c|
   c.description = "Setup git repo for project."
   c.action do |args|
     name = args.first || Dir.getwd
-    Pave::Concrete.new(name).initialize_git
-  end
-end
-
-command :"setup:symlinks" do |c|
-  c.syntax = "pave setup:symlinks APP_PATH"
-  c.description = "Setup app folder symlinks for project."
-  c.action do |args|
-    name = args.first || Dir.getwd
-    Pave::Concrete.new(name).symlink_folders
+    Pave::Concrete.new(name).set_up_git
   end
 end
 
