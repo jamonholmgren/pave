@@ -70,9 +70,18 @@ module Pave
     #   end
     # end
 
+    def in_project_dir?
+      File.basename(Dir.pwd) == name
+    end
+
     def modify_folder_permissions
       say "* Modifying folder permissions..."
-      if world_writable_folders.each{ |folder| sh "sudo chmod -R 777 #{folder}" }.count{ |x| x != 0 } == 0
+
+      successful = world_writable_folders.map do |folder|
+        sh "sudo chmod -R 777 #{in_project_dir? ? folder.to_s : name + '/' + folder.to_s}"
+      end.count{ |x| x != 0 } == 0
+
+      if successful
         say "Successfully modified folder permissions."
       else
         say "Folder permissions not set up. Run `pave setup:permissions` to set them."
