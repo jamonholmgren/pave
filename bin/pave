@@ -117,7 +117,8 @@ command :"db:create" do |c|
   c.syntax = "pave db:create DATABASE"
   c.description = "Create the Concrete5 project's database."
   c.action do |args|
-    Pave::Database.create(args.first)
+    name = args.first || "#{File.basename(Dir.pwd)}"
+    Pave::Database.create(name)
   end
 end
 
@@ -125,7 +126,8 @@ command :"db:dump" do |c|
   c.syntax = "pave db:dump DATABASE"
   c.description = "Create SQL dump of the project's database."
   c.action do |args|
-    Pave::Database.new(args.first).dump
+    name = args.first || "#{File.basename(Dir.pwd)}"
+    Pave::Database.new(name).dump
   end
 end
 
