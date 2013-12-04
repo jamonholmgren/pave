@@ -19,7 +19,7 @@ module Pave
       clone_concrete5
       set_up_folders
       set_up_git
-      # create_virtual_host
+      create_virtual_host
       self
     end
 
@@ -61,14 +61,14 @@ module Pave
       ]
     end
 
-    # def create_virtual_host
-    #   say "* Setting up virtual host..."
-    #   if Pave::VirtualHost.new("#{name}.site").create_vhost
-    #     say "Successfully setup virtual host #{name}.site."
-    #   else
-    #     say "Virtual host not set up. Run `pave vh:create #{name}.site` to create it."
-    #   end
-    # end
+    def create_virtual_host
+      say "* Setting up virtual host..."
+      if Pave::VirtualHost.new("#{name}.site").create_vhost
+        say "Successfully setup virtual host #{name}.site."
+      else
+        say "Virtual host not set up. Run `pave vh:create #{name}.site` to create it."
+      end
+    end
 
     def in_project_dir?
       File.basename(Dir.pwd) == name
