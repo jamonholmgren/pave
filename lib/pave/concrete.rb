@@ -36,9 +36,10 @@ module Pave
 
     def set_up_app_folder
       say "* Setting up folders..."
-      sh "mkdir #{name}/app"
 
-      symlink_folders
+      # sh "mkdir #{name}/app"
+      # symlink_folders
+
       remove_extra_folders
       modify_folder_permissions
     end
@@ -85,11 +86,7 @@ module Pave
     end
 
     def world_writable_folders
-      [
-        :config,
-        :packages,
-        :files
-      ]
+      %w{ config packages files }
     end
 
     def symlink_folders
