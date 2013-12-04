@@ -29,7 +29,7 @@ command :setup do |c|
   c.syntax = "pave setup APP_PATH"
   c.description = "Setup folders for project."
   c.action do |args|
-    name = args.first || Dir.getwd
+    name = args.first || Dir.pwd
     Pave::Concrete.new(name).set_up_folders
   end
 end
@@ -39,7 +39,7 @@ command :"setup:git" do |c|
   c.syntax = "pave setup:git APP_PATH"
   c.description = "Setup git repo for project."
   c.action do |args|
-    name = args.first || Dir.getwd
+    name = args.first || Dir.pwd
     Pave::Concrete.new(name).set_up_git
   end
 end
@@ -48,7 +48,7 @@ command :"setup:permissions" do |c|
   c.syntax = "pave setup:permissions APP_PATH"
   c.description = "Setup folder permissions for project."
   c.action do |args|
-    name = args.first || Dir.getwd
+    name = args.first || Dir.pwd
     Pave::Concrete.new(name).modify_folder_permissions
   end
 end
@@ -58,7 +58,7 @@ command :"setup:clean" do |c|
   c.syntax = "pave setup:cleanup APP_PATH"
   c.description = "Remove unused folders from project."
   c.action do |args|
-    name = args.first || Dir.getwd
+    name = args.first || Dir.pwd
     Pave::Concrete.new(name).remove_extra_folders
   end
 end
@@ -68,7 +68,8 @@ command :"virtualhost:create" do |c|
   c.syntax = "pave virtualhost:create VHOST"
   c.description = "Setup virtual host for Concrete5 project."
   c.action do |args|
-    Pave::VirtualHost.new(args.first).create_vhost
+    host = args.first || "#{File.basename(Dir.pwd)}.site"
+    Pave::VirtualHost.new(host).create_vhost
   end
 end
 alias_command :"vh:create", :"virtualhost:create"
@@ -77,7 +78,8 @@ command :"virtualhost:remove" do |c|
   c.syntax = "pave virtualhost:remove VHOST"
   c.description = "Delete virtual host."
   c.action do |args|
-    Pave::VirtualHost.new(args.first).remove_vhost
+    host = args.first || "#{File.basename(Dir.pwd)}.site"
+    Pave::VirtualHost.new(host).remove_vhost
   end
 end
 alias_command :"vh:remove", :"virtualhost:remove"
@@ -85,19 +87,19 @@ alias_command :"virtualhost:delete", :"virtualhost:remove"
 alias_command :"vh:delete", :"virtualhost:remove"
 
 command :"virtualhost:backup" do |c|
-  c.syntax = "pave virtualhost:backup VHOST"
+  c.syntax = "pave virtualhost:backup"
   c.description = "Back up virtual hosts file. Restore with `pave virtualhost:restore`."
-  c.action do |args|
-    Pave::VirtualHost.new(args.first).backup_vhost
+  c.action do
+    Pave::VirtualHost.new("").backup_vhost
   end
 end
 alias_command :"vh:backup", :"virtualhost:backup"
 
 command :"virtualhost:restore" do |c|
-  c.syntax = "pave virtualhost:restore VHOST"
+  c.syntax = "pave virtualhost:restore"
   c.description = "Restore previously backed up virtual hosts file."
-  c.action do |args|
-    Pave::VirtualHost.new(args.first).restore_vhost
+  c.action do
+    Pave::VirtualHost.new("").restore_vhost
   end
 end
 alias_command :"vh:restore", :"virtualhost:restore"
@@ -106,7 +108,7 @@ command :"virtualhost:restart" do |c|
   c.syntax = "pave virtualhost:restart"
   c.description = "Restarts apache."
   c.action do
-    Pave::VirtualHost.restart_apache
+    Pave::VirtualHost.new("").restart_apache
   end
 end
 alias_command :"vh:restart", :"virtualhost:restart"

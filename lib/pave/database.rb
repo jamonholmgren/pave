@@ -22,7 +22,7 @@ module Pave
     end
 
     def dump
-      say "Creating dump of #{name} at #{Dir.getwd}/#{Time.now.strftime("%Y-%m-%d")}-#{name}.sql.gz"
+      say "Creating dump of #{name} at #{Dir.pwd}/#{Time.now.strftime("%Y-%m-%d")}-#{name}.sql.gz"
       sh "mysqldump -uroot #{name} | gzip > #{Time.now.strftime("%Y-%m-%d")}-#{name}.sql.gz"
     end
 
