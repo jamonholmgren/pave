@@ -10,23 +10,10 @@ module Pave
       @hostname = host
     end
 
-    def self.restart_apache
+    def restart_apache
       `sudo apachectl restart`
       say "Apache restarted."
       true
-    end
-
-    def create_vhost
-      return say "No virtual host backup found. Run `pave vh:backup` before adding a virtual host." unless check_backup
-      return say "No host name provided. Run `pave help` for more details." unless hostname.size > 0
-
-      add_vhost_to_conf && add_hosts_entry && restart_apache && say("Created virtual host for #{hostname}.")
-    end
-
-    def remove_vhost
-      return say "No virtual host backup found. Run `pave vh:backup` before adding a virtual host." unless check_backup
-
-      remove_vhost_from_conf && remove_hosts_entry && restart_apache && say("Removed virtual host for #{hostname}.")
     end
 
     def backup_vhost
@@ -49,6 +36,19 @@ module Pave
       restart_apache
 
       say "Restored vhosts conf and host file."
+    end
+
+    def create_vhost
+      return say "No virtual host backup found. Run `pave vh:backup` before adding a virtual host." unless check_backup
+      return say "No host name provided. Run `pave help` for more details." unless hostname.size > 0
+
+      add_vhost_to_conf && add_hosts_entry && restart_apache && say("Created virtual host for #{hostname}.")
+    end
+
+    def remove_vhost
+      return say "No virtual host backup found. Run `pave vh:backup` before adding a virtual host." unless check_backup
+
+      remove_vhost_from_conf && remove_hosts_entry && restart_apache && say("Removed virtual host for #{hostname}.")
     end
 
     private
@@ -120,7 +120,7 @@ module Pave
     end
 
     def project_folder
-      Dir.getwd
+      Dir.pwd
     end
 
     def vhosts_file_array
