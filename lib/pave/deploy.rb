@@ -9,7 +9,7 @@ module Pave
       script = File.join(File.expand_path("../..", File.dirname(__FILE__)), "resources/deploy.sh")
 
       puts "Piping shell script to #{server} for setup."
-      sh "ssh #{server}:#{folder} 'bash -s' < #{script}"
+      sh "ssh #{server} 'cd #{folder}; bash -s' < #{script}"
 
       sh "git remote remove #{remote}"
       sh "git remote add #{remote} #{server}:#{folder}/deploy.git"
