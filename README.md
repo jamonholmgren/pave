@@ -10,7 +10,7 @@ Provides a set of command line tools for Concrete5.
 
 ## Usage
 
-Create a new Concrete5 website:
+#### Create a new Concrete5 website:
 
     $ pave new mywebsite
 
@@ -22,21 +22,30 @@ This:
 4. Builds an app folder of commonly used folders (symlinked into the root folder so Concrete5 can find them)
 5. Initializes a Git repo and adds the first ("Initial") commit.
 
-Other commands:
+#### Deployments
+
+    $ pave deploy:setup
+
+This sets up a deployment script to the remote server and deploys an initial version.
+
+    $ pave deploy
+
+Deploys the site using git.
+
+#### Database
+
+TODO:
+
+    $ pave db:create
+    $ pave db:push
+    $ pave db:pull
+    $ pave db:backup
+
+#### Help
 
     $ pave --help
     
 Outputs common tasks that pave can do.
-
-## TODO
-
-1. ? Create database (`pave database mydatabase`)
-1. Tell user to go set up Concrete5 in-browser once virtual host and db is set up
-1. Uninstall? `pave remove mywebsite` (including virtual host)
-1. Do database dumps. `pave db dump`
-1. Do live database download & replace local one. `pave db download` (confirmation first)
-1. Do local database upload & replace remote one. `pave db upload` (confirmation first)
-
 
 ## Contributing
 
