@@ -7,6 +7,7 @@ require "pave/concrete"
 require "pave/database"
 require "pave/virtual_host"
 require "pave/theme"
+require "pave/deploy"
 
 module Pave
   def update

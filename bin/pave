@@ -147,13 +147,29 @@ command :"db:upload" do |c|
   end
 end
 
-
-
 command :"theme:create" do |c|
   c.syntax = "pave theme:create THEME_NAME"
   c.description = "Set up a blank theme with sass."
   c.action do |args|
     name = args.first || "#{File.basename(Dir.pwd)}"
     Pave::Theme.create(name)
+  end
+end
+
+command :"deploy" do |c|
+  c.syntax = "pave deploy"
+  c.description = "Deploy project to web server."
+  c.action do |args|
+    remote = args[0] || "production"
+    branch = args[1] || "master"
+    Pave::Deploy.new.deploy(remote, branch)
+  end
+end
+
+command :"deploy:setup" do |c|
+  c.syntax = "pave deploy:setup"
+  c.description = "Setup deployment via git to web server."
+  c.action do
+    Pave::Deploy.new.setup
   end
 end
