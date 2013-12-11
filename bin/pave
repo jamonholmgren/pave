@@ -146,3 +146,14 @@ command :"db:upload" do |c|
     say "`db:upload` command not implemented yet."
   end
 end
+
+
+
+command :"theme:create" do |c|
+  c.syntax = "pave theme:create THEME_NAME"
+  c.description = "Set up a blank theme with sass."
+  c.action do |args|
+    name = args.first || "#{File.basename(Dir.pwd)}"
+    Pave::Theme.create(name)
+  end
+end
