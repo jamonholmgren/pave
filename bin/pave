@@ -151,7 +151,7 @@ command :"deploy" do |c|
   c.syntax = "pave deploy"
   c.description = "Deploy project to web server."
   c.action do |args|
-    remote = args[0] || "production"
+    remote = args[0] || "live"
     branch = args[1] || "master"
     Pave::Deploy.new.deploy(remote, branch)
   end
