@@ -156,6 +156,15 @@ command :"theme:create" do |c|
   end
 end
 
+command :watch do |c|
+  c.syntax = "pave watch"
+  c.description = "Watch for sass changes."
+  c.action do |args|
+    name = args.first || "#{File.basename(Dir.pwd)}"
+    Pave::Theme.watch
+  end
+end
+
 command :"deploy" do |c|
   c.syntax = "pave deploy"
   c.description = "Deploy project to web server."

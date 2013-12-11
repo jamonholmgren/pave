@@ -1,5 +1,3 @@
-TEMPLATES_HOME = File.realpath("./templates")
-
 require "commander/import"
 require "pave/version"
 require "pave/shell"
@@ -16,5 +14,10 @@ module Pave
     ($? == 0) ? (say "Updated") : (say "Update failed. Run `gem update pave` manually.")
   end
   module_function :update
+
+  def template_folder 
+    script = File.join(File.expand_path("../", File.dirname(__FILE__)), "templates")
+  end  
+  module_function :template_folder
 
 end
