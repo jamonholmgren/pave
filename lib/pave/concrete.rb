@@ -36,10 +36,8 @@ module Pave
         sh "curl #{c5_link} > ~/.pave/#{c5}.zip"
       end
       say "* Copying Concrete5 into #{name}..."
-      sh "cp ~/.pave/#{c5}.zip #{c5}.zip"
-      sh "unzip -qq #{c5}.zip"
+      sh "unzip -qq ~/.pave/#{c5}.zip"
       sh "mv #{c5} #{name}"
-      sh "rm #{c5}.zip"
     end
 
     def set_up_folders
