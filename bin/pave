@@ -146,3 +146,21 @@ command :"db:upload" do |c|
     say "`db:upload` command not implemented yet."
   end
 end
+
+command :"deploy" do |c|
+  c.syntax = "pave deploy"
+  c.description = "Deploy project to web server."
+  c.action do |args|
+    remote = args[0] || "production"
+    branch = args[1] || "master"
+    Pave::Deploy.new.deploy(remote, branch)
+  end
+end
+
+command :"deploy:setup" do |c|
+  c.syntax = "pave deploy:setup"
+  c.description = "Setup deployment via git to web server."
+  c.action do
+    Pave::Deploy.new.setup
+  end
+end

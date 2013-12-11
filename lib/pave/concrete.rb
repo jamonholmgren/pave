@@ -47,7 +47,6 @@ module Pave
       gitkeep_folders.each{ |folder| sh "touch #{name}/#{folder}/.keep" }
       sh "touch #{name}/files/.keep"
       sh "touch #{name}/updates/.keep"
-      # sh "cd #{name} && git init && git add -A && git commit -m 'Initial'"
     end
 
     def gitignored_folders
