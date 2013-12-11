@@ -30,7 +30,7 @@ command :setup do |c|
   c.description = "Setup folders for project."
   c.action do |args|
     name = args.first || Dir.pwd
-    Pave::Concrete.new(name).setup_folders
+    Pave::Concrete.new(name).set_up_folders
   end
 end
 alias_command :"setup:app", :setup
@@ -40,7 +40,7 @@ command :"setup:git" do |c|
   c.description = "Setup git repo for project."
   c.action do |args|
     name = args.first || Dir.pwd
-    Pave::Concrete.new(name).setup_git
+    Pave::Concrete.new(name).set_up_git
   end
 end
 

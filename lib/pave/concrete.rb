@@ -16,15 +16,15 @@ module Pave
     end
 
     def setup
-      setup_pave
+      set_up_pave
       clone_concrete5
-      setup_folders
-      setup_git
+      set_up_folders
+      set_up_git
       create_virtual_host
       self
     end
 
-    def setup_pave
+    def set_up_pave
       sh "mkdir ~/.pave" unless File.exists?(File.join(Dir.home, ".pave/"))
     end
 
@@ -42,13 +42,13 @@ module Pave
       sh "rm #{c5}.zip"
     end
 
-    def setup_folders
+    def set_up_folders
       say "* Setting up folders..."
       remove_extra_folders
       modify_folder_permissions
     end
 
-    def setup_git
+    def set_up_git
       say "* Setting up git..."
       sh "touch #{name}/.gitignore"
       gitignored_folders.each{ |folder| sh "echo '#{folder}' >> #{name}/.gitignore" }
