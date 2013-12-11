@@ -26,15 +26,16 @@ module Pave
         sh "mkdir .db"
         sh "touch .db/index.php"
       end
-      say "Creating dump of #{name} at #{Dir.pwd}/.db/#{Time.now.strftime("%Y-%m-%d-%H%M")}-#{name}.sql.gz"
-      sh "mysqldump -uroot #{name} | gzip > ./.db/#{Time.now.strftime("%Y-%m-%d-%H%M")}-#{name}.sql.gz"
+      dbname = Time.now.strftime("%Y-%m-%d-%H%M") + "-" + name + ".sql.gz"
+      say "Creating dump of #{name} at #{Dir.pwd}/.db/#{dbname}"
+      sh "mysqldump -uroot #{name} | gzip > ./.db/#{dbname}"
       say "Dump complete. Running backup dump..."
       
       # backup db
-      if !File.directory?('~/DBbackups'+name)
-        sh "mkdir -p ~/DBbackups/#{name}"
+      if !File.directory?('~/.pave'+name)
+        sh "mkdir -p ~/.pave/#{name}"
       end
-      sh "mysqldump -uroot #{name} | gzip > ~/DBbackups/#{name}/#{Time.now.strftime("%Y-%m-%d-%H%M")}-#{name}.sql.gz"
+      sh "cp ./.db/#{dbname} ~/.pave/#{name}/#{dbname}"
       say "Backup dump complete."
 
     end
