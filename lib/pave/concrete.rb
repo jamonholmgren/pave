@@ -16,31 +16,39 @@ module Pave
     end
 
     def setup
+      setup_pave
       clone_concrete5
-      set_up_folders
-      set_up_git
+      setup_folders
+      setup_git
       create_virtual_host
       self
     end
 
-    def clone_concrete5
-      say "* Downloading Concrete5 version 5.6.2.1..."
-      sh "curl http://www.concrete5.org/download_file/-/view/58379/8497 -o c5.zip > /dev/null"
-      say ""
-      say "* Unzipping..."
-      sh "unzip c5.zip"
-      sh "rm c5.zip"
-      sh "mv concrete5.6.2.1 #{name}"
-      say "* Concrete5 downloaded and unzipped into ./#{name}."
+    def setup_pave
+      sh "mkdir ~/.pave" unless File.exists?(File.join(Dir.home, ".pave/"))
     end
 
-    def set_up_folders
+    def clone_concrete5
+      c5 = "concrete5.6.2.1"
+      c5_link = "http://www.concrete5.org/download_file/-/view/58379/8497"
+      unless File.exists?(File.join(Dir.home, ".pave/#{c5}.zip"))
+        say "* Downloading #{c5}..."
+        sh "curl #{c5_link} > ~/.pave/#{c5}.zip"
+      end
+      say "* Copying Concrete5 into #{name}..."
+      sh "cp ~/.pave/#{c5}.zip #{c5}.zip"
+      sh "unzip -qq #{c5}.zip"
+      sh "mv #{c5} #{name}"
+      sh "rm #{c5}.zip"
+    end
+
+    def setup_folders
       say "* Setting up folders..."
       remove_extra_folders
       modify_folder_permissions
     end
 
-    def set_up_git
+    def setup_git
       say "* Setting up git..."
       sh "touch #{name}/.gitignore"
       gitignored_folders.each{ |folder| sh "echo '#{folder}' >> #{name}/.gitignore" }
@@ -88,7 +96,7 @@ module Pave
     end
 
     def world_writable_folders
-      %w{ config packages files }
+      %w{ blocks config packages files }
     end
 
     def gitkeep_folders
