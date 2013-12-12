@@ -147,20 +147,20 @@ command :"db:upload" do |c|
   end
 end
 
-command :"theme:create" do |c|
-  c.syntax = "pave theme:create THEME_NAME"
+command :"generate:theme" do |c|
+  c.syntax = "pave generate:theme THEME_NAME"
   c.description = "Set up a blank theme with sass."
   c.action do |args|
     name = args.first || "#{File.basename(Dir.pwd)}"
     Pave::Theme.create(name)
   end
 end
+alias_command :"g:theme", :"generate:theme"
 
 command :watch do |c|
   c.syntax = "pave watch"
   c.description = "Watch for sass changes."
   c.action do |args|
-    name = args.first || "#{File.basename(Dir.pwd)}"
     Pave::Theme.watch
   end
 end
