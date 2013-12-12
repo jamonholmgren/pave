@@ -1,4 +1,3 @@
-require "pave/shell"
 require "fileutils"
 
 module Pave
