@@ -27,6 +27,11 @@ module Pave
       sh "cd themes/#{self.name}/css/ && bourbon install && cd -"
     end
 
+    def install_neat
+      sh "gem install neat"
+      sh "cd themes/#{self.name}/css/ && neat install && cd -"
+    end
+
     def copy_theme
       sh "cp -a #{Pave.template_folder}/themes/blank #{Dir.pwd}/themes/#{self.name}"
     end
@@ -36,6 +41,7 @@ module Pave
       copy_theme
       install_sass
       install_bourbon
+      install_neat
       say "Theme installed. Run `pave watch` to generate css from your sass files."
     end
 
