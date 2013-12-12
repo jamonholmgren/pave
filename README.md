@@ -6,13 +6,13 @@ Provides a set of command line tools for setting up and developing [Concrete5](h
 
 *Requirements:* Designed for Ruby 2.0+ running on OS X Mavericks.
 
-## Installation
+# Installation
 
     $ gem install pave
 
-## Usage
+# Usage
 
-#### Create a new Concrete5 website:
+## Create a new Concrete5 website
 
     $ pave new mywebsite
 
@@ -23,7 +23,7 @@ This:
 3. Removes extra folders and sets up folder permissions
 4. Initializes a Git repo and `.gitignore` and creates the initial commit
 
-#### Deployments
+## Deployments
 
     $ pave deploy:setup
 
@@ -33,7 +33,7 @@ This sets up a Git-based deployment script to the remote server and deploys an i
 
 Deploys the site using git.
 
-#### Database
+## Database
 
     $ pave db:create mydatabase
 
@@ -51,7 +51,7 @@ Creates a local MySQL database called `mydatabase`
 
 Creates a database dump file and places it in `.db/YYYY-MM-DD-database.sql.gz`.
 
-#### Virtual host setup
+## Virtual host setup
 
     $ pave vh:create myhost.site
 
@@ -73,13 +73,13 @@ Restores your previously backed up virtual host file.
 
 Restarts Apache.
 
-#### Help
+## Help
 
     $ pave --help
     
 Outputs common tasks that pave can do.
 
-#### Updating
+## Updating
 
     $ pave update
 
