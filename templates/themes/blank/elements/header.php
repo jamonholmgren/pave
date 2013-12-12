@@ -5,7 +5,8 @@
 <html lang="<?php echo LANGUAGE?>">
   <head>
     <?php   Loader::element('header_required'); ?>
-
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/2.1.3/normalize.min.css" />
     <link rel="stylesheet" href="<?= $this->getThemePath(); ?>/css/styles.css" />
 
     <!--[if lt IE 9]>
