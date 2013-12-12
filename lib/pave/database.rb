@@ -26,12 +26,12 @@ module Pave
         sh "mkdir db"
         sh "echo '<?= die(); ?>' >> ./db/index.php"
         sh "echo 'deny from all' >> ./db/.htaccess"
-        sh "sudo chmod -R 600 db/"
+        sh "sudo chmod -R 700 db/"
       end
-      # dbname = Time.now.strftime("%Y-%m-%d-%H%M") + "-" + name + ".sql.gz"
-      # say "Creating dump of #{name} at #{Dir.pwd}/db/#{dbname}"
-      # sh "mysqldump -uroot #{name} | gzip > ./db/#{dbname}"
-      # say "Dump complete. Running backup dump..."
+      dbname = Time.now.strftime("%Y-%m-%d-%H%M") + "-" + name + ".sql.gz"
+      say "Creating dump of #{name} at #{Dir.pwd}/db/#{dbname}"
+      sh "mysqldump -uroot #{name} | gzip > ./db/#{dbname}"
+      say "Dump complete."
     end
 
     def download(host, user, password)
