@@ -22,22 +22,16 @@ module Pave
     end
 
     def dump
-      if !File.directory?('.db')
-        sh "mkdir .db"
-        sh "touch .db/index.php"
+      if !File.directory?('db')
+        sh "mkdir db"
+        sh "echo '<?= die(); ?>' >> ./db/index.php"
+        sh "echo 'deny from all' >> ./db/.htaccess"
+        sh "sudo chmod -R 600 db/"
       end
-      dbname = Time.now.strftime("%Y-%m-%d-%H%M") + "-" + name + ".sql.gz"
-      say "Creating dump of #{name} at #{Dir.pwd}/.db/#{dbname}"
-      sh "mysqldump -uroot #{name} | gzip > ./.db/#{dbname}"
-      say "Dump complete. Running backup dump..."
-      
-      # backup db
-      if !File.directory?('~/.pave'+name)
-        sh "mkdir -p ~/.pave/#{name}"
-      end
-      sh "cp ./.db/#{dbname} ~/.pave/#{name}/#{dbname}"
-      say "Backup dump complete."
-
+      # dbname = Time.now.strftime("%Y-%m-%d-%H%M") + "-" + name + ".sql.gz"
+      # say "Creating dump of #{name} at #{Dir.pwd}/db/#{dbname}"
+      # sh "mysqldump -uroot #{name} | gzip > ./db/#{dbname}"
+      # say "Dump complete. Running backup dump..."
     end
 
     def download(host, user, password)
