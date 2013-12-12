@@ -16,6 +16,7 @@ module Pave
     end
 
     def setup
+      set_up_pave
       clone_concrete5
       set_up_folders
       set_up_git
@@ -23,15 +24,19 @@ module Pave
       self
     end
 
+    def set_up_pave
+      sh "mkdir ~/.pave" unless File.exists?(File.join(Dir.home, ".pave/"))
+    end
+
     def clone_concrete5
-      say "* Downloading Concrete5 version 5.6.2.1..."
-      sh "curl http://www.concrete5.org/download_file/-/view/58379/8497 -o c5.zip > /dev/null"
-      say ""
-      say "* Unzipping..."
-      sh "unzip c5.zip"
-      sh "rm c5.zip"
-      sh "mv concrete5.6.2.1 #{name}"
-      say "* Concrete5 downloaded and unzipped into ./#{name}."
+      c5 = "concrete5.6.2.1"
+      c5_link = "http://www.concrete5.org/download_file/-/view/58379/8497"
+      unless File.exists?(File.join(Dir.home, ".pave/#{c5}.zip"))
+        say "* Downloading #{c5}..."
+        sh "curl #{c5_link} > ~/.pave/#{c5}.zip"
+      end
+      say "* Copying Concrete5 into #{name}..."
+      sh "unzip -qq ~/.pave/#{c5}.zip && mv #{c5} #{name}"
     end
 
     def set_up_folders
@@ -90,7 +95,7 @@ module Pave
     end
 
     def world_writable_folders
-      %w{ config packages files }
+      %w{ blocks config packages files }
     end
 
     def gitkeep_folders
