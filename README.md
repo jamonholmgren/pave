@@ -1,6 +1,6 @@
 # pave - Command line tools for Concrete5 websites
 
-Author: Jamon Holmgren (@jamonholmgren)
+Authors: Jamon Holmgren (@jamonholmgren), Ryan Linton (@ryanlntn)
 
 Provides a set of command line tools for setting up and developing [Concrete5](http://www.concrete5.org/) websites.
 
@@ -21,7 +21,8 @@ This:
 1. Downloads Concrete 5.6.2.1 (once) into `~/.pave`
 2. Unzips it into `mywebsite`
 3. Removes extra folders and sets up folder permissions
-4. Initializes a Git repo and `.gitignore` and creates the initial commit
+4. Adds a `.gitignore` and `.keep`s
+5. Attempts to create a virtual host `mywebsite.site`
 
 ## Deployments
 
@@ -47,7 +48,7 @@ Creates a local MySQL database called `mydatabase`
 
 *TODO:* Copies the remote Concrete5 database into the local database. Useful for obtaining production data for testing.
 
-    $ pave db:backup
+    $ pave db:dump
 
 Creates a database dump file and places it in `.db/YYYY-MM-DD-database.sql.gz`.
 
@@ -75,8 +76,8 @@ Restarts Apache.
 
 ## Help
 
-    $ pave --help
-    
+    $ pave help
+
 Outputs common tasks that pave can do.
 
 ## Updating
