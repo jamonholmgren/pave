@@ -21,10 +21,10 @@ module Pave
 
     def dump
       if !File.directory?('db')
-        sh "mkdir db"
-        sh "echo '<?= die(); ?>' >> ./db/index.php"
-        sh "echo 'deny from all' >> ./db/.htaccess"
-        sh "sudo chmod -R 700 db/"
+        sh "mkdir ./db"
+        sh "echo '<?= die(); ?>' > ./db/index.php"
+        sh "echo 'deny from all' > ./db/.htaccess"
+        sh "sudo chmod -R 700 ./db/"
       end
       dbname = Time.now.strftime("%Y-%m-%d-%H%M") + "-" + name + ".sql.gz"
       say "Creating dump of #{name} at #{Dir.pwd}/db/#{dbname}"
