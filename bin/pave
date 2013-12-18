@@ -132,15 +132,15 @@ command :"db:dump" do |c|
 end
 alias_command :"db:backup", :"db:dump"
 
-command :"db:dump_remote" do |c|
-  c.syntax = "pave db:dump_remote DATABASE"
+command :"db:remote:dump" do |c|
+  c.syntax = "pave db:remote:dump DATABASE"
   c.description = "Create SQL dump of the project's live database."
   c.action do |args|
     name = args.first || "#{File.basename(Dir.pwd)}"
     Pave::Database.new(name).dump_remote
   end
 end
-alias_command :"db:backup_remote", :"db:dump_remote"
+alias_command :"db:remote:backup", :"db:remote:dump"
 
 command :"db:execute" do |c|
   c.syntax = "pave db:execute DATABASE"
@@ -151,8 +151,8 @@ command :"db:execute" do |c|
   end
 end
 
-command :"db:execute_remote" do |c|
-  c.syntax = "pave db:execute DATABASE"
+command :"db:remote:execute" do |c|
+  c.syntax = "pave db:remote:execute DATABASE"
   c.description = "Execute SQL dump on the project's live database."
   c.action do |args|
     name = args.first || "#{File.basename(Dir.pwd)}"
