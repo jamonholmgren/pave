@@ -23,7 +23,7 @@ module Pave
       require 'json'
       live_domain = shell("php -r \"error_reporting(0);require('./config/site.php');echo LIVE_DOMAIN;\"").output
       db_json = shell("php -r \"error_reporting(0);"\
-                      "\$_SERVER = array('HTTP_HOST' => '#{live_domain}');"\
+                      "\\$_SERVER = array('HTTP_HOST' => '#{live_domain}');"\
                       "require('./config/site.php');"\
                       "echo json_encode("\
                         "array('host' => DB_SERVER,"\
