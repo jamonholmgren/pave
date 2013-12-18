@@ -22,7 +22,7 @@ module Pave
     end
 
     def self.url(remote="live")
-      remotes = sh "git remote -v"
+      remotes = shell("git remote -v").output
       remotes.match(/#{remote}\s+(.*)\s+\(push\)/)[1]
     end
 

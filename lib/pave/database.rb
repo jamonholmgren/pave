@@ -21,15 +21,15 @@ module Pave
 
     def remote_db
       require 'json'
-      live_domain = sh "php -r \"error_reporting(0);require('./config/site.php');echo LIVE_DOMAIN;\""
-      db_json = sh "php -r \"error_reporting(0);"\
-                   "\$_SERVER = array('HTTP_HOST' => '#{live_domain}');"\
-                   "require('./config/site.php');"\
-                   "echo json_encode("\
-                      "array('host' => DB_SERVER,"\
-                            "'user' => DB_USERNAME,"\
-                            "'pass' => DB_PASSWORD,"\
-                            "'name' => DB_DATABASE));\""
+      live_domain = shell("php -r \"error_reporting(0);require('./config/site.php');echo LIVE_DOMAIN;\"").output
+      db_json = shell("php -r \"error_reporting(0);"\
+                      "\$_SERVER = array('HTTP_HOST' => '#{live_domain}');"\
+                      "require('./config/site.php');"\
+                      "echo json_encode("\
+                        "array('host' => DB_SERVER,"\
+                              "'user' => DB_USERNAME,"\
+                              "'pass' => DB_PASSWORD,"\
+                              "'name' => DB_DATABASE));\"").output
       JSON.parse(db_json)
     end
 
