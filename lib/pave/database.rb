@@ -42,8 +42,14 @@ module Pave
     end
 
     def dump
-      say "Creating dump of #{name} at #{Dir.pwd}/#{dump_file}"
-      sh "mysqldump -uroot #{name} | gzip > #{dump_file}"
+      if !File.directory?('db')
+        sh "mkdir ./db"
+        sh "echo '<?= die(); ?>' > ./db/index.php"
+        sh "echo 'deny from all' > ./db/.htaccess"
+        sh "sudo chmod -R 700 ./db/"
+      end
+      say "Creating dump of #{name} at #{Dir.pwd}/db/#{dump_file}"
+      sh "mysqldump -uroot #{name} | gzip > ./db/#{dump_file}"
     end
 
     def dump_remote(remote="live")
