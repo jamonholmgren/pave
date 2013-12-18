@@ -57,7 +57,7 @@ module Pave
     def execute
       # Execute SQL file.
       say "Executing #{dump_file} on #{name}"
-      sh "gzip -dc #{dump_file} | mysql -uroot #{name}"
+      sh "gzip -dc ./db/#{dump_file} | mysql -uroot #{name}"
     end
 
     def execute_remote(remote="live")
