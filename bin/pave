@@ -132,6 +132,52 @@ command :"db:dump" do |c|
 end
 alias_command :"db:backup", :"db:dump"
 
+command :"db:dump_remote" do |c|
+  c.syntax = "pave db:dump_remote DATABASE"
+  c.description = "Create SQL dump of the project's live database."
+  c.action do |args|
+    name = args.first || "#{File.basename(Dir.pwd)}"
+    Pave::Database.new(name).dump_remote
+  end
+end
+alias_command :"db:backup_remote", :"db:dump_remote"
+
+command :"db:execute" do |c|
+  c.syntax = "pave db:execute DATABASE"
+  c.description = "Execute SQL dump on the project's database."
+  c.action do |args|
+    name = args.first || "#{File.basename(Dir.pwd)}"
+    Pave::Database.new(name).execute
+  end
+end
+
+command :"db:execute_remote" do |c|
+  c.syntax = "pave db:execute DATABASE"
+  c.description = "Execute SQL dump on the project's live database."
+  c.action do |args|
+    name = args.first || "#{File.basename(Dir.pwd)}"
+    Pave::Database.new(name).execute_remote
+  end
+end
+
+command :"db:download" do |c|
+  c.syntax = "pave db:download DATABASE"
+  c.description = "Download SQL dump of the project's live database."
+  c.action do |args|
+    name = args.first || "#{File.basename(Dir.pwd)}"
+    Pave::Database.new(name).download
+  end
+end
+
+command :"db:upload" do |c|
+  c.syntax = "pave db:upload DATABASE"
+  c.description = "Upload SQL dump of the project's database."
+  c.action do |args|
+    name = args.first || "#{File.basename(Dir.pwd)}"
+    Pave::Database.new(name).upload
+  end
+end
+
 command :"db:pull" do |c|
   c.syntax = "pave db:pull"
   c.description = "Download the project's live database and replace local database."
@@ -145,7 +191,8 @@ command :"db:push" do |c|
   c.syntax = "pave db:push"
   c.description = "Upload the project's local database and replace the live database."
   c.action do |args|
-    say "`db:push` command not implemented yet."
+    name = args.first || "#{File.basename(Dir.pwd)}"
+    Pave::Database.new(name).push
   end
 end
 
