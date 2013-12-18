@@ -136,7 +136,8 @@ command :"db:pull" do |c|
   c.syntax = "pave db:pull"
   c.description = "Download the project's live database and replace local database."
   c.action do |args|
-    say "`db:pull` command not implemented yet."
+    name = args.first || "#{File.basename(Dir.pwd)}"
+    Pave::Database.new(name).pull
   end
 end
 
