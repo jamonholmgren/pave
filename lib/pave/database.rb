@@ -56,19 +56,20 @@ module Pave
 
     def execute
       # Execute SQL file.
-      # Still need to get latest file
-      say "Successfully pulled! You rock!"
+      say "Successfully pulled! You rock! Now to execute..."
       # sh "gzip -dc #{file} | mysql -uroot -p#{db_pass} #{name}"
     end
 
     def execute_remote(remote="live")
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)
+      say "Successfully pushed! You rock! Now to execute..."
       # sh "ssh #{server} 'cd #{directory}/db; gzip -dc #{file} | mysql -u#{db_user} -p#{db_pass} #{name}'"
     end
 
     def upload(remote="live")
       # Upload the project's local database dump to remotes db directory.
+      say "Uploading SQL dump to #{remote_url}/db/#{dump_file}"
       sh "scp ./db/#{dump_file} #{remote_url}/db"
     end
 
@@ -80,6 +81,7 @@ module Pave
 
     def push(remote="live")
       # Upload the project's local database and replace the live database.
+      dump
       upload(remote)
       execute_remote(remote)
     end
