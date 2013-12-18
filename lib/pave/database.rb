@@ -19,29 +19,18 @@ module Pave
       sh "mysql -uroot -e 'CREATE DATABASE #{name}'"
     end
 
-    # We should think about moving these three into deploy.rb and renaming it remote.rb
-
-    def remote_url
-      # Get remote url from .git/config
-      #
-      # [remote "live"]
-      #   url = clearsight@cloud.joescan.com:/var/www/html/deploy.git
-    end
-
-    def remote_server
-      # Split remote_url on ':' return first
-      # remote_url.split(":").first
-    end
-
-    def remote_dir
-      # Split remote_url on ':' return last
-      # remote_url.split(":").last.gsub("/deploy.git", "")
-    end
-
-    ###########################################################################
-
-    def remote_db_credentials
-      # Read config/site.php and get remote db host, user, pass, and name
+    def remote_db
+      require 'json'
+      live_domain = sh "php -r \"error_reporting(0);require('./config/site.php');echo LIVE_DOMAIN;\""
+      db_json = sh "php -r \"error_reporting(0);"\
+                   "\$_SERVER = array('HTTP_HOST' => '#{live_domain}');"\
+                   "require('./config/site.php');"\
+                   "echo json_encode("\
+                      "array('host' => DB_SERVER,"\
+                            "'user' => DB_USERNAME,"\
+                            "'pass' => DB_PASSWORD,"\
+                            "'name' => DB_DATABASE));\""
+      JSON.parse(db_json)
     end
 
     def dump_file
@@ -53,40 +42,49 @@ module Pave
       sh "mysqldump -uroot #{name} | gzip > #{dump_file}"
     end
 
-    def dump_remote
-      # sh "ssh #{remote_server} 'cd #{remote_dir}/db; mysqldump -u#{user} -p#{password} #{name} | gzip > #{dump_file}'"
+    def dump_remote(remote="live")
+      server = Pave::Remote.server(remote)
+      directory = Pave::Remote.directory(remote)
+      db = remote_db
+      sh "ssh #{server} 'cd #{directory}/db; mysqldump -u#{db[:user]} -p#{db[:pass]} #{db[:name]} | gzip > #{dump_file}'"
     end
 
     def execute
       # Execute SQL file.
-      # sh "gzip -dc #{file} | mysql -u#{user} -p#{pass} #{name}"
+      # Still need to get latest file
+      say "Successfully pulled! You rock!"
+      # sh "gzip -dc #{file} | mysql -uroot -p#{db_pass} #{name}"
     end
 
-    def execute_remote
-      # Execute SQL file on remote db.
-      # sh "ssh #{remote_server} 'cd #{remote_dir}/db; gzip -dc #{file} | mysql -u#{user} -p#{pass} #{name}'"
+    def execute_remote(remote="live")
+      server = Pave::Remote.server(remote)
+      directory = Pave::Remote.directory(remote)
+      # sh "ssh #{server} 'cd #{directory}/db; gzip -dc #{file} | mysql -u#{db_user} -p#{db_pass} #{name}'"
     end
 
-    def upload
+    def upload(remote="live")
       # Upload the project's local database dump to remotes db directory.
-      # sh "scp ./db/#{dump_file} #{remote_url}/db"
+      remote_url = Pave::Remote.url(remote)
+      sh "scp ./db/#{dump_file} #{remote_url}/db"
     end
 
-    def download
+    def download(remote="live")
       # Download the project's live database dump to local db directory.
-      # sh "scp #{remote_url}/db/#{dump_file} ./db"
+      remote_url = Pave::Remote.url(remote)
+      sh "scp #{remote_url}/db/#{dump_file} ./db"
     end
 
-    def push
+    def push(remote="live")
       # Upload the project's local database and replace the live database.
-      # upload
-      # execute_remote
+      upload(remote)
+      execute_remote(remote)
     end
 
-    def pull
+    def pull(remote="live")
       # Download the project's live database and replace local database.
-      # download
-      # execute
+      dump_remote(remote)
+      download(remote)
+      execute
     end
   end
 end
