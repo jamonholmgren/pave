@@ -1,7 +1,7 @@
 module Pave
   module Shell
-    def Shell.included klass
-      klass.extend Shell
+    def Shell.included base
+      base.extend Shell
     end
 
     def shell(command)
