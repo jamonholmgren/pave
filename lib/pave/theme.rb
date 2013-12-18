@@ -39,7 +39,7 @@ module Pave
       say "Installing Bitters"
       sh "gem install bitters"
       sh "cd themes/#{self.name}/css/ && bitters install && cd -"
-    end    
+    end
 
     def copy_theme
       sh "cp -a #{Pave.template_folder}/themes/blank #{Dir.pwd}/themes/#{self.name}"

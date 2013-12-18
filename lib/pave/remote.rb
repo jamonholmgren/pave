@@ -1,8 +1,8 @@
 module Pave
-  class Deploy
+  class Remote
     include Pave::Shell
 
-    def setup
+    def self.setup
       server = ask "Username and hostname of the remote server (e.g. user@server.com): "
       folder = ask "Name of the remote directory (e.g. ~/webapps/appname/): "
       remote = ask "Desired git remote name (e.g. live): "
@@ -17,8 +17,21 @@ module Pave
       puts "Finished! You may now run `pave deploy` to deploy your application."
     end
 
-    def deploy(remote="live", branch="master")
+    def self.deploy(remote="live", branch="master")
       sh "git push #{remote} #{branch}"
+    end
+
+    def self.url(remote="live")
+      remotes = shell("git remote -v").output
+      remotes.match(/#{remote}\s+(.*)\s+\(push\)/)[1]
+    end
+
+    def self.server(remote="live")
+      self.url(remote).split(":").first
+    end
+
+    def self.directory(remote="live")
+      self.url(remote).split(":").last.gsub("/deploy.git", "")
     end
   end
 end

@@ -4,8 +4,8 @@ require "pave/shell"
 require "pave/concrete"
 require "pave/database"
 require "pave/virtual_host"
+require "pave/remote"
 require "pave/theme"
-require "pave/deploy"
 
 module Pave
   def update
@@ -15,9 +15,8 @@ module Pave
   end
   module_function :update
 
-  def template_folder 
+  def template_folder
     script = File.join(File.expand_path("../", File.dirname(__FILE__)), "templates")
-  end  
+  end
   module_function :template_folder
-
 end

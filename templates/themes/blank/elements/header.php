@@ -14,7 +14,7 @@
     <![endif]-->
   </head>
 
-	<body class="<?= $c->getCollectionTypeHandle(); ?>">
+        <body class="<?= $c->getCollectionTypeHandle(); ?>">
 
 
     <!-- BLOCK EXAMPLE -->
