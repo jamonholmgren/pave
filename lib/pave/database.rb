@@ -56,8 +56,8 @@ module Pave
 
     def execute
       # Execute SQL file.
-      say "Successfully pulled! You rock! Now to execute..."
-      # sh "gzip -dc #{file} | mysql -uroot -p#{db_pass} #{name}"
+      say "Executing #{dump_file} on #{name}"
+      sh "gzip -dc #{dump_file} | mysql -uroot -p#{db_pass} #{name}"
     end
 
     def execute_remote(remote="live")
