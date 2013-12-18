@@ -33,6 +33,10 @@ module Pave
       JSON.parse(db_json)
     end
 
+    def remote_url(remote="live")
+      "#{Pave::Remote.server(remote)}:#{Pave::Remote.directory(remote)}"
+    end
+
     def dump_file
       "#{Time.now.strftime("%Y-%m-%d")}-#{name}.sql.gz"
     end
@@ -46,6 +50,7 @@ module Pave
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)
       db = remote_db
+      say "Remotely creating dump of #{name} at #{server}:#{directory}/db/#{dump_file}"
       sh "ssh #{server} 'cd #{directory}/db; mysqldump -u#{db[:user]} -p#{db[:pass]} #{db[:name]} | gzip > #{dump_file}'"
     end
 
@@ -64,13 +69,12 @@ module Pave
 
     def upload(remote="live")
       # Upload the project's local database dump to remotes db directory.
-      remote_url = Pave::Remote.url(remote)
       sh "scp ./db/#{dump_file} #{remote_url}/db"
     end
 
     def download(remote="live")
       # Download the project's live database dump to local db directory.
-      remote_url = Pave::Remote.url(remote)
+      say "Downloading SQL dump from #{remote_url}/db/#{dump_file}"
       sh "scp #{remote_url}/db/#{dump_file} ./db"
     end
 
