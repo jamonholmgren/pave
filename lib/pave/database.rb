@@ -50,7 +50,7 @@ module Pave
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)
       db = remote_db
-      say "Remotely creating dump of #{name} at #{server}:#{directory}/db/#{dump_file}"
+      say "Remotely creating dump of #{db[:name]} at #{server}:#{directory}/db/#{dump_file}"
       sh "ssh #{server} 'cd #{directory}/db; mysqldump -u#{db[:user]} -p#{db[:pass]} #{db[:name]} | gzip > #{dump_file}'"
     end
 
