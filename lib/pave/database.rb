@@ -55,7 +55,6 @@ module Pave
     end
 
     def execute
-      # Execute SQL file.
       say "Executing #{dump_file} on #{name}"
       sh "gzip -dc ./db/#{dump_file} | mysql -uroot #{name}"
     end
@@ -63,8 +62,8 @@ module Pave
     def execute_remote(remote="live")
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)
-      say "Successfully pushed! You rock! Now to execute..."
-      # sh "ssh #{server} 'cd #{directory}/db; gzip -dc #{file} | mysql -u#{db_user} -p#{db_pass} #{name}'"
+      say "Remotely executing #{dump_file} on live #{db['name']}"
+      sh "ssh #{server} \"cd #{directory}/db; gzip -dc #{dump_file} | mysql -u#{db['user']} -p#{db['pass']} #{db['name']}\""
     end
 
     def upload(remote="live")
