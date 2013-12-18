@@ -61,7 +61,9 @@ module Pave
         "files/incoming/*",
         "files/thumbnails/*",
         "files/tmp/*",
-        "files/trash/*"
+        "files/trash/*",
+        ".sass-cache",
+        "stylesheets"
       ]
     end
 
