@@ -8,7 +8,7 @@ describe Pave do
   
   describe '.template_folder' do
     it "returns a string with /templates" do
-      Pave.template_folder.should contain("/templates")
+      Pave.template_folder.should include("/templates")
     end
   end
   
