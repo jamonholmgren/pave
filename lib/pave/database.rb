@@ -19,6 +19,11 @@ module Pave
       sh "mysql -uroot -e 'CREATE DATABASE #{name}'"
     end
 
+    def drop
+      destroy = agree("Are you sure you want to drop #{name}? All data will be lost.")
+      sh "mysql -uroot -e 'DROP DATABASE #{name}'" if destroy
+    end
+
     def remote_db
       require 'json'
       live_domain = shell("php -r \"error_reporting(0);require('./config/site.php');echo LIVE_DOMAIN;\"").output
