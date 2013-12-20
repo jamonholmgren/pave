@@ -66,7 +66,7 @@ module Pave
 
     def create_virtual_host
       say "* Setting up virtual host..."
-      if Pave::VirtualHost.new("#{name}.site").create_vhost
+      if sh "sudo pave vh:create #{name}.site"
         say "Successfully setup virtual host #{name}.site."
       else
         say "Virtual host not set up. Run `pave vh:create #{name}.site` to create it."
