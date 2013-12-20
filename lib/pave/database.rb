@@ -81,21 +81,21 @@ module Pave
 
     def upload(remote="live")
       # Upload the project's local database dump to remotes db directory.
-      say "Uploading ./db/#{dump_file(:local)} SQL dump to #{remote_url}/db/#{dump_file(:remote)}"
-      sh "scp ./db/#{dump_file(:local)} #{remote_url}/db/#{dump_file(:remote)}"
+      say "Uploading ./db/#{dump_file(:local)} SQL dump to #{remote_url}/db/#{dump_file(:local)}"
+      sh "scp ./db/#{dump_file(:local)} #{remote_url}/db/#{dump_file(:local)}"
     end
 
     def download(remote="live")
       # Download the project's live database dump to local db directory.
-      say "Downloading SQL dump from #{remote_url}/db/#{dump_file(:remote)} to ./db/#{dump_file(:local)}"
-      sh "scp #{remote_url}/db/#{dump_file(:remote)} ./db/#{dump_file(:local)}"
+      say "Downloading SQL dump from #{remote_url}/db/#{dump_file(:remote)} to ./db/#{dump_file(:remote)}"
+      sh "scp #{remote_url}/db/#{dump_file(:remote)} ./db/#{dump_file(:remote)}"
     end
 
     def push(remote="live")
       # Upload the project's local database and replace the live database.
-      dump
       dump_remote(remote) # for backup purposes
       download(remote)
+      dump
       upload(remote)
       execute_remote(remote)
     end
