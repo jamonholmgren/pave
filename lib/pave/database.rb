@@ -73,6 +73,7 @@ module Pave
     def execute_remote(remote="live")
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)
+      db = remote_db
       say "Remotely executing #{dump_file} on live #{db['name']}"
       sh "ssh #{server} \"cd #{directory}/db; gzip -dc #{dump_file} | mysql -u#{db['user']} -p#{db['pass']} #{db['name']}\""
     end
