@@ -42,8 +42,8 @@ module Pave
       "#{Pave::Remote.server(remote)}:#{Pave::Remote.directory(remote)}"
     end
 
-    def dump_file
-      "#{Time.now.strftime("%Y-%m-%d")}-#{name}.sql.gz"
+    def dump_file(which_db)
+      "#{Time.now.strftime("%Y-%m-%d")}-#{name}-#{which_db}.sql.gz"
     end
 
     def dump
@@ -53,52 +53,54 @@ module Pave
         sh "echo 'deny from all' > ./db/.htaccess"
         sh "sudo chmod -R 700 ./db/"
       end
-      say "Creating dump of #{name} at #{Dir.pwd}/db/#{dump_file}"
-      sh "mysqldump -uroot #{name} | gzip > ./db/#{dump_file}"
+      say "Creating dump of #{name} at #{Dir.pwd}/db/#{dump_file(:local)}"
+      sh "mysqldump -uroot #{name} | gzip > ./db/#{dump_file(:local)}"
     end
 
     def dump_remote(remote="live")
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)
       db = remote_db
-      say "Remotely creating dump of #{db['name']} at #{server}:#{directory}/db/#{dump_file}"
-      sh "ssh #{server} \"cd #{directory}/db; mysqldump -u#{db['user']} -p#{db['pass']} #{db['name']} | gzip > #{dump_file}\""
+      say "Remotely creating dump of #{db['name']} at #{server}:#{directory}/db/#{dump_file(:remote)}"
+      sh "ssh #{server} \"cd #{directory}/db; mysqldump -u#{db['user']} -p#{db['pass']} #{db['name']} | gzip > #{dump_file(:remote)}\""
     end
 
     def execute
-      say "Executing #{dump_file} on #{name}"
-      sh "gzip -dc ./db/#{dump_file} | mysql -uroot #{name}"
+      say "Executing #{dump_file(:local)} on #{name}"
+      sh "gzip -dc ./db/#{dump_file(:local)} | mysql -uroot #{name}"
     end
 
     def execute_remote(remote="live")
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)
       db = remote_db
-      say "Remotely executing #{dump_file} on live #{db['name']}"
-      sh "ssh #{server} \"cd #{directory}/db; gzip -dc #{dump_file} | mysql -u#{db['user']} -p#{db['pass']} #{db['name']}\""
+      say "Remotely executing #{dump_file(:remote)} on live #{db['name']}"
+      sh "ssh #{server} \"cd #{directory}/db; gzip -dc #{dump_file(:remote)} | mysql -u#{db['user']} -p#{db['pass']} #{db['name']}\""
     end
 
     def upload(remote="live")
       # Upload the project's local database dump to remotes db directory.
-      say "Uploading SQL dump to #{remote_url}/db/#{dump_file}"
-      sh "scp ./db/#{dump_file} #{remote_url}/db"
+      say "Uploading ./db/#{dump_file(:local)} SQL dump to #{remote_url}/db/#{dump_file(:remote)}"
+      sh "scp ./db/#{dump_file(:local)} #{remote_url}/db/#{dump_file(:remote)}"
     end
 
     def download(remote="live")
       # Download the project's live database dump to local db directory.
-      say "Downloading SQL dump from #{remote_url}/db/#{dump_file}"
-      sh "scp #{remote_url}/db/#{dump_file} ./db"
+      say "Downloading SQL dump from #{remote_url}/db/#{dump_file(:remote)} to ./db/#{dump_file(:local)}"
+      sh "scp #{remote_url}/db/#{dump_file(:remote)} ./db/#{dump_file(:local)}"
     end
 
     def push(remote="live")
       # Upload the project's local database and replace the live database.
       dump
+      dump_remote(remote) # for backup purposes
       upload(remote)
       execute_remote(remote)
     end
 
     def pull(remote="live")
       # Download the project's live database and replace local database.
+      dump # for backup purposes
       dump_remote(remote)
       download(remote)
       execute
