@@ -43,7 +43,8 @@ module Pave
     end
 
     def dump_file(which_db)
-      "#{Time.now.strftime("%Y-%m-%d")}-#{name}-#{which_db}.sql.gz"
+      @dump_file_name ||= {}
+      @dump_file_name[which_db] ||= "#{Time.now.strftime("%Y-%m-%d_%H-%M-%S")}-#{name}-#{which_db}.sql.gz"
     end
 
     def dump
@@ -94,6 +95,7 @@ module Pave
       # Upload the project's local database and replace the live database.
       dump
       dump_remote(remote) # for backup purposes
+      download(remote)
       upload(remote)
       execute_remote(remote)
     end
