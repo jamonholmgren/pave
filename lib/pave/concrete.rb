@@ -48,20 +48,17 @@ module Pave
     def set_up_git
       say "* Setting up git..."
       sh "touch #{name}/.gitignore"
-      gitignored_folders.each{ |folder| sh "echo '#{folder}' >> #{name}/.gitignore" }
-      gitkeep_folders.each{ |folder| sh "touch #{name}/#{folder}/.keep" }
+      gitignored.each{ |ignored| sh "echo '#{ignored}' >> #{name}/.gitignore" }
+      gitkept_folders.each{ |folder| sh "touch #{name}/#{folder}/.keep" }
       sh "touch #{name}/files/.keep"
       sh "touch #{name}/updates/.keep"
     end
 
-    def gitignored_folders
+    def gitignored
       [
-        "files/avatars/*",
-        "files/cache/*",
-        "files/incoming/*",
-        "files/thumbnails/*",
-        "files/tmp/*",
-        "files/trash/*",
+        "files/*",
+        "!files/.keep",
+        ".DS_Store",
         ".sass-cache",
         "stylesheets"
       ]
@@ -69,7 +66,7 @@ module Pave
 
     def create_virtual_host
       say "* Setting up virtual host..."
-      if Pave::VirtualHost.new("#{name}.site").create_vhost
+      if sh("sudo pave vh:create #{name}.site") == 0
         say "Successfully setup virtual host #{name}.site."
       else
         say "Virtual host not set up. Run `pave vh:create #{name}.site` to create it."
@@ -98,7 +95,7 @@ module Pave
       %w{ blocks config packages files }
     end
 
-    def gitkeep_folders
+    def gitkept_folders
       [
         :blocks,
         :elements,
