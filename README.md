@@ -1,6 +1,6 @@
 # pave - Command line tools for Concrete5 websites
 
-Authors: Jamon Holmgren (@jamonholmgren), Ryan Linton (@ryanlntn)
+Authors: Jamon Holmgren (@jamonholmgren), Ryan Linton (@ryanlntn), and the rest at ClearSight Studio (@clrsightstudio).
 
 Provides a set of command line tools for setting up and developing [Concrete5](http://www.concrete5.org/) websites.
 
@@ -32,7 +32,7 @@ This sets up a Git-based deployment script to the remote server and deploys an i
 
     $ pave deploy
 
-Deploys the site using git.
+Deploys the site using git. Files and databases are not deployed (see below for how to do that).
 
 ## Database
 
@@ -42,15 +42,29 @@ Creates a local MySQL database called `mydatabase`
 
     $ pave db:push
 
-*TODO:* Copies the local Concrete5 database to the remote database. Useful for deploying to staging sites.
+Copies the local Concrete5 database to the remote database. Useful for deploying to staging sites.
 
     $ pave db:pull
 
-*TODO:* Copies the remote Concrete5 database into the local database. Useful for obtaining production data for testing.
+Copies the remote Concrete5 database into the local database. Useful for obtaining production data for testing.
 
     $ pave db:dump
 
-Creates a database dump file and places it in `.db/YYYY-MM-DD-database.sql.gz`.
+Creates a database dump file and places it in `.db/YYYY-MM-DD_HH-MM-SS-<databasename>.sql.gz`.
+
+## Files
+
+    $ pave files:push
+
+*WARNING: be careful with this command!* Pushes your local `files/*` to the remote server, completely replacing the remote server's version.
+
+    $ pave files:pull
+
+Pulls the remote `files/*` folder and replaces your local version.
+
+    $ pave files:sync
+
+*TODO:* Pulls newer remote files and pushes newer local files. Ignores cache and tmp files.
 
 ## Virtual host setup
 
