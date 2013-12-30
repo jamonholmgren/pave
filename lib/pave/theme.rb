@@ -11,7 +11,7 @@ module Pave
     end
 
     def self.watch
-      `sass --watch ./themes/ --style compressed`
+      system("sass --watch ./themes/ --style compressed");
     end
 
     def initialize(name)
