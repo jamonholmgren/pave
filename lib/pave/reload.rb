@@ -32,7 +32,6 @@ module Pave
                   end repeat
                 end repeat
               end tell
-            ENDGAME
             }
           end
         end
