@@ -237,7 +237,7 @@ command :watch do |c|
   c.syntax = "pave watch"
   c.description = "Watch for sass changes."
   c.action do |args|
-    Pave::Theme.watch 
+    Pave::Theme.watch
   end
 end
 
