@@ -7,6 +7,7 @@ require "pave/files"
 require "pave/virtual_host"
 require "pave/remote"
 require "pave/theme"
+require "pave/reload"
 
 module Pave
   def update

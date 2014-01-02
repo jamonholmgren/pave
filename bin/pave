@@ -258,3 +258,11 @@ command :"deploy:setup" do |c|
     Pave::Remote.setup
   end
 end
+
+command :"livereload" do |c|
+  c.syntax = "pave livereload"
+  c.description = "Watch project for changes and refresh page."
+  c.action do |args|
+    Pave::Reload.live_reload
+  end
+end

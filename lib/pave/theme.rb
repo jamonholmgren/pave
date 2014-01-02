@@ -1,5 +1,3 @@
-require "pave/shell"
-
 module Pave
   class Theme
     include Pave::Shell
