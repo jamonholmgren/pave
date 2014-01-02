@@ -57,4 +57,4 @@ module Pave
       File.basename(Dir.pwd)
     end
   end
-end  
+end
