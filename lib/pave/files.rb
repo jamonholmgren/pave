@@ -2,6 +2,18 @@ module Pave
   class Files
     include Pave::Shell
 
+    def self.clear_cache
+      sh "rm -rf ./files/tmp/*; rm -rf ./files/cache/*;"
+    end
+
+    def self.clear_remote_cache(remote="live")
+      server = Pave::Remote.server(remote)
+      directory = Pave::Remote.directory(remote)
+      sh "ssh #{server} 'cd #{directory}/files;
+          rm -rf ./tmp/*;
+          rm -rf ./cache/*;'"
+    end
+
     def self.push(remote="live")
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)

@@ -205,6 +205,15 @@ command :"db:push" do |c|
   end
 end
 
+command :"files:cache:clear" do |c|
+  c.syntax = "pave cache:clear"
+  c.description = "Empty the project's files/cache and files/tmp directories."
+  c.action do
+    Pave::Files.clear_cache
+  end
+end
+alias_command :"cache:clear", :"files:cache:clear"
+
 command :"files:pull" do |c|
   c.syntax = "pave files:pull"
   c.description = "Download the project's live files directory."
