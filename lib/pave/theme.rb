@@ -1,5 +1,3 @@
-require "pave/shell"
-
 module Pave
   class Theme
     include Pave::Shell
@@ -11,6 +9,7 @@ module Pave
     end
 
     def self.watch
+      system("pave livereload &")
       system("sass --watch ./themes/ --style compressed")
     end
 
