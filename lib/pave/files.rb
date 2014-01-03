@@ -6,15 +6,8 @@ module Pave
       sh "rm -rf ./files/tmp/*; rm -rf ./files/cache/*;"
     end
 
-    def self.clear_remote_cache(remote="live")
-      server = Pave::Remote.server(remote)
-      directory = Pave::Remote.directory(remote)
-      sh "ssh #{server} 'cd #{directory}/files;
-          rm -rf ./tmp/*;
-          rm -rf ./cache/*;'"
-    end
-
     def self.push(remote="live")
+      clear_cache
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)
       sh "scp -r ./files #{server}:#{directory}/local_files;"
@@ -29,6 +22,7 @@ module Pave
       sh "scp -r #{server}:#{directory}/files ./remote_files;
           mv ./files ./old_files;
           mv ./remote_files ./files && rm -rf ./old_files;"
+      clear_cache
     end
   end
 end
