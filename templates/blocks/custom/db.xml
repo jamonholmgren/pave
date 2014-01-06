@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<schema version="0.3">
+	<table name="btDCCustomBlock">
+		<field name="bID" type="I"><key /><unsigned /></field>
+
+		<field name="field_2_textbox_text" type="X"></field>
+
+		<field name="field_3_textarea_text" type="X"></field>
+
+		<field name="field_4_image_fID" type="I"></field>
+
+		<field name="field_5_file_fID" type="I"></field>
+		<field name="field_5_file_linkText" type="C" size="255"></field>
+
+		<field name="field_6_link_cID" type="I"></field>
+		<field name="field_6_link_text" type="C" size="255"></field>
+
+		<field name="field_7_link_url" type="C" size="255"></field>
+		<field name="field_7_link_text" type="C" size="255"></field>
+
+		<field name="field_8_date_value" type="D"></field>
+
+		<field name="field_9_select_value" type="I"><default value="0" /></field>
+
+		<field name="field_10_wysiwyg_content" type="X2"></field>
+
+
+	</table>
+</schema>
