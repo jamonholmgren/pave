@@ -47,7 +47,7 @@ module Pave
       @dump_file_name[which_db] ||= "#{Time.now.strftime("%Y-%m-%d_%H-%M-%S")}-#{name}-#{which_db}.sql.gz"
     end
 
-    def dump
+    def dump_local
       if !File.directory?('db')
         sh "mkdir ./db"
         sh "echo '<?= die(); ?>' > ./db/index.php"
@@ -66,12 +66,12 @@ module Pave
       sh "ssh #{server} \"cd #{directory}/db; mysqldump -u#{db['user']} -p#{db['pass']} #{db['name']} | gzip > #{dump_file(:remote)}\""
     end
 
-    def execute
-      say "Executing #{dump_file(:local)} on #{name}"
-      sh "gzip -dc ./db/#{dump_file(:local)} | mysql -uroot #{name}"
+    def execute_remote_dump_on_local_db
+      say "Executing #{dump_file(:remote)} on #{name}"
+      sh "gzip -dc ./db/#{dump_file(:remote)} | mysql -uroot #{name}"
     end
 
-    def execute_remote(remote="live")
+    def execute_local_dump_on_remote_db(remote="live")
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)
       db = remote_db
@@ -79,13 +79,13 @@ module Pave
       sh "ssh #{server} \"cd #{directory}/db; gzip -dc #{dump_file(:local)} | mysql -u#{db['user']} -p#{db['pass']} #{db['name']}\""
     end
 
-    def upload(remote="live")
+    def upload_local_dump_to_remote(remote="live")
       # Upload the project's local database dump to remotes db directory.
       say "Uploading ./db/#{dump_file(:local)} SQL dump to #{remote_url}/db/#{dump_file(:local)}"
       sh "scp ./db/#{dump_file(:local)} #{remote_url}/db/#{dump_file(:local)}"
     end
 
-    def download(remote="live")
+    def download_remote_to_local(remote="live")
       # Download the project's live database dump to local db directory.
       say "Downloading SQL dump from #{remote_url}/db/#{dump_file(:remote)} to ./db/#{dump_file(:remote)}"
       sh "scp #{remote_url}/db/#{dump_file(:remote)} ./db/#{dump_file(:remote)}"
@@ -94,18 +94,18 @@ module Pave
     def push(remote="live")
       # Upload the project's local database and replace the live database.
       dump_remote(remote) # for backup purposes
-      download(remote)
-      dump
-      upload(remote)
-      execute_remote(remote)
+      download_remote_to_local(remote)
+      dump_local
+      upload_local_dump_to_remote(remote)
+      execute_local_dump_on_remote_db(remote)
     end
 
     def pull(remote="live")
       # Download the project's live database and replace local database.
-      dump # for backup purposes
+      dump_local # for backup purposes
       dump_remote(remote)
-      download(remote)
-      execute
+      download_remote_to_local(remote)
+      execute_remote_dump_on_local_db
     end
   end
 end
