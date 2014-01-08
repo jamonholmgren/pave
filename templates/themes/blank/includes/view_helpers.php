@@ -1,6 +1,6 @@
 <?
 
-  function id_edit_mode() {
+  function is_edit_mode() {
     global $c;
     if ($c->isEditMode()) {
       echo "edit-mode";
@@ -13,11 +13,8 @@
   } 
 
   function has_blocks($area) {
-    if ($area->getTotalBlocksInArea($c) > 0) { 
-      return true;
-    } else {
-      return false;
-    }
+    global $c;
+    return $area->getTotalBlocksInArea($c) > 0;
   }
 
 ?>
