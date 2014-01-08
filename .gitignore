@@ -4,3 +4,4 @@ pkg
 html
 .gem
 *.gem
+.bundle
