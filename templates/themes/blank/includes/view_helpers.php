@@ -24,7 +24,7 @@
     if ($html_options) {
       $options = " alt='" . explode(".", $img, 2)[0] . "'";
       foreach ($html_options as $k => $v) {
-        $options .= " " . $k . "='" . $v . "'";
+        $options .= " " . $k . "='" . addslashes($v) . "'";
       }
     } else {
       $options = " alt='" . explode(".", $img, 2)[0] . "'";
