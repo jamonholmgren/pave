@@ -18,6 +18,13 @@ module Pave
   end
   module_function :update
 
+  def clean
+    say "Cleaning up cached files..."
+    `rm -rf ~/.pave`
+    ($? == 0) ? (say "Done") : (say "Failed")
+  end
+  module_function :clean
+
   def template_folder
     script = File.join(File.expand_path("../", File.dirname(__FILE__)), "templates")
   end

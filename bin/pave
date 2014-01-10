@@ -25,6 +25,14 @@ command :update do |c|
   end
 end
 
+command :clean do |c|
+  c.syntax = "pave clean"
+  c.description = "Removes cached files."
+  c.action do
+    Pave.clean
+  end
+end
+
 command :setup do |c|
   c.syntax = "pave setup APP_PATH"
   c.description = "Setup folders for project."
