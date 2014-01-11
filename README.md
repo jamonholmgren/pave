@@ -68,23 +68,23 @@ Pulls the remote `files/*` folder and replaces your local version.
 
 ## Virtual host setup
 
-    $ pave vh:create myhost.site
+    $ sudo pave vh:create myhost.site
 
 Sets up an Apache virtual host in the current directory on `myhost.site`.
 
-    $ pave vh:remove myhost.site
+    $ sudo pave vh:remove myhost.site
 
 Removes myhost.site virtual host.
 
-    $ pave vh:backup
+    $ sudo pave vh:backup
 
 Backs up your hosts file and vhost file.
 
-    $ pave vh:restore
+    $ sudo pave vh:restore
 
 Restores your previously backed up virtual host file.
 
-    $ pave vh:restart
+    $ sudo pave vh:restart
 
 Restarts Apache.
 
