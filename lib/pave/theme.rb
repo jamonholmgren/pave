@@ -8,8 +8,8 @@ module Pave
       new(name).setup
     end
 
-    def self.watch
-      system("pave livereload &")
+    def self.watch(browser)
+      system("pave livereload #{browser} &")
       system("sass --watch ./themes/ --style compressed")
     end
 

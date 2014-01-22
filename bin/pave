@@ -251,10 +251,11 @@ end
 alias_command :"g:theme", :"generate:theme"
 
 command :watch do |c|
-  c.syntax = "pave watch"
+  c.syntax = "pave watch BROWSER"
   c.description = "Watch for sass changes."
   c.action do |args|
-    Pave::Theme.watch
+    browser = args.first || "chrome"
+    Pave::Theme.watch(browser)
   end
 end
 
@@ -277,9 +278,10 @@ command :"deploy:setup" do |c|
 end
 
 command :"livereload" do |c|
-  c.syntax = "pave livereload"
+  c.syntax = "pave livereload BROWSER"
   c.description = "Watch project for changes and refresh page."
   c.action do |args|
-    Pave::Reload.live_reload
+    browser = args.first || "chrome"
+    Pave::Reload.live_reload(browser)
   end
 end
