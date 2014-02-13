@@ -23,7 +23,13 @@ module Pave
 
     def self.url(remote="live")
       remotes = shell("git remote -v").output
-      remotes.match(/#{remote}\s+(.*)\s+\(push\)/)[1]
+      remote_matches = remotes.match(/#{remote}\s+(.*)\s+\(push\)/)
+      if remote_matches
+        remote_matches[1]
+      else
+        say "No git remote named `#{remote}` found."
+        abort
+      end
     end
 
     def self.server(remote="live")

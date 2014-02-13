@@ -7,7 +7,7 @@ module Pave
     end
 
     def self.flags
-      " -uazh ssh --progress "
+      " -uazh -e ssh --progress "
     end
 
     def self.clear_cache
@@ -17,13 +17,13 @@ module Pave
     def self.push(remote="live")
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)
-      sh "rsync #{flags} #{exclusions} ./files #{server}:#{directory}/files"
+      sh "rsync #{flags} #{exclusions} ./files/* #{server}:#{directory}/files/*"
     end
 
     def self.pull(remote="live")
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)
-      sh "rsync #{flags} #{exclusions} #{server}:#{directory}/files ./files"
+      sh "rsync #{flags} #{exclusions} #{server}:#{directory}/files/* ./files/*"
       clear_cache
     end
 
