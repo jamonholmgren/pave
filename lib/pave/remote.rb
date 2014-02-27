@@ -4,7 +4,7 @@ module Pave
 
     def self.setup
       server = ask "Username and hostname of the remote server (e.g. user@server.com): "
-      folder = ask "Name of the remote directory (e.g. ~/webapps/appname/): "
+      folder = ask "Name of the remote directory (e.g. ~/webapps/appname): "
       remote = ask "Desired git remote name (e.g. live): "
       script = File.join(File.expand_path("../..", File.dirname(__FILE__)), "resources/deploy.sh")
 

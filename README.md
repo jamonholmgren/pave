@@ -28,11 +28,15 @@ This:
 
     $ pave deploy:setup
 
-This sets up a Git-based deployment script to the remote server and deploys an initial version. SSH access is required.
+This sets up a Git-based deployment script to the remote server and deploys an initial version. SSH access is required. You may run it multiple times and setup as many deployment endpoints as you want.
 
     $ pave deploy
 
 Deploys the site using git. Files and databases are not deployed (see below for how to do that).
+
+    $ pave deploy staging feature-branch
+
+Deploys feature-branch to staging remote.
 
 ## Database
 
