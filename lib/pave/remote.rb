@@ -25,7 +25,7 @@ module Pave
       remotes = shell("git remote -v").output
       begin
         remotes.match(/#{remote}\s+(.*)\s+\(push\)/)[1]
-      rescue
+      rescue NoMethodError
         puts "Could not find remote named #{remote}. Please run `pave deploy:setup` to create it."
         exit
       end
