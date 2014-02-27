@@ -23,7 +23,12 @@ module Pave
 
     def self.url(remote="live")
       remotes = shell("git remote -v").output
-      remotes.match(/#{remote}\s+(.*)\s+\(push\)/)[1]
+      begin
+        remotes.match(/#{remote}\s+(.*)\s+\(push\)/)[1]
+      rescue
+        puts "Could not find remote named #{remote}. Please run `pave deploy:setup` to create it."
+        exit
+      end
     end
 
     def self.server(remote="live")
