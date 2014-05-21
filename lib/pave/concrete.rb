@@ -59,7 +59,7 @@ module Pave
       sh "cd #{name}/concrete/core/controllers/single_pages && sed -i '.bak' 's/.*{$salt}.*/&\\ $configuration .= \\\"define(\\\\\"ENABLE_NEWSFLOW_OVERLAY\\\\\", false);\\\\n\\\";/' install.php"
       sh "cd #{name}/concrete/core/controllers/single_pages && sed -i '.bak' 's/.*{$salt}.*/&\\ $configuration .= \\\"define(\\\\\"PERMISSIONS_MODEL\\\\\", \\\\\"advanced\\\\\");\\\\n\\\";/' install.php"
       sh "cd #{name}/concrete/core/controllers/single_pages && sed -i '.bak' 's/.*{$salt}.*/&\ $configuration .= \"define(\\\\\"STATISTICS_TRACK_PAGE_VIEWS\\\\\", false);\\\\n\\\";/' install.php"
-      sh "cd #{name}/concrete/core/controllers/single_pages && sed -i '.bak' 's/.*{$salt}.*/&\ $configuration .= \"define(\\\\\"WHITE_LABEL_DASHBOARD_BACKGROUND_SRC\\\\\", \\\\\"/concrete/images/spacer.gif\\\\\");\\\\n\\\";/' install.php"
+      sh "cd #{name}/concrete/core/controllers/single_pages && sed -i '.bak' 's/.*{$salt}.*/&\ $configuration .= \"define(\\\\\"WHITE_LABEL_DASHBOARD_BACKGROUND_SRC\\\\\", \\\\\"\\/concrete\\/images\\/spacer.gif\\\\\");\\\\n\\\";/' install.php"
       sh "cd #{name}/concrete/core/controllers/single_pages && sed -i '.bak' 's/.*{$salt}.*/&\ $configuration .= \"define(\\\\\"ENABLE_INTELLIGENT_SEARCH_HELP\\\\\", false);\\\\n\\\";/' install.php"
     end
 
