@@ -28,11 +28,15 @@ This:
 
     $ pave deploy:setup
 
-This sets up a Git-based deployment script to the remote server and deploys an initial version. SSH access is required.
+This sets up a Git-based deployment script to the remote server and deploys an initial version. SSH access is required. You may run it multiple times and setup as many deployment endpoints as you want.
 
     $ pave deploy
 
 Deploys the site using git. Files and databases are not deployed (see below for how to do that).
+
+    $ pave deploy staging feature-branch
+
+Deploys feature-branch to staging remote.
 
 ## Database
 
@@ -68,23 +72,23 @@ Pulls the remote `files/*` folder and replaces your local version.
 
 ## Virtual host setup
 
-    $ pave vh:create myhost.site
+    $ sudo pave vh:create myhost.site
 
 Sets up an Apache virtual host in the current directory on `myhost.site`.
 
-    $ pave vh:remove myhost.site
+    $ sudo pave vh:remove myhost.site
 
 Removes myhost.site virtual host.
 
-    $ pave vh:backup
+    $ sudo pave vh:backup
 
 Backs up your hosts file and vhost file.
 
-    $ pave vh:restore
+    $ sudo pave vh:restore
 
 Restores your previously backed up virtual host file.
 
-    $ pave vh:restart
+    $ sudo pave vh:restart
 
 Restarts Apache.
 

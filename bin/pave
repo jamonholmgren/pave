@@ -144,7 +144,7 @@ command :"db:dump" do |c|
   c.description = "Create SQL dump of the project's database."
   c.action do |args|
     name = args.first || "#{File.basename(Dir.pwd)}"
-    Pave::Database.new(name).dump
+    Pave::Database.new(name).dump_local
   end
 end
 alias_command :"db:backup", :"db:dump"
@@ -164,7 +164,7 @@ command :"db:execute" do |c|
   c.description = "Execute SQL dump on the project's database."
   c.action do |args|
     name = args.first || "#{File.basename(Dir.pwd)}"
-    Pave::Database.new(name).execute
+    Pave::Database.new(name).execute_remote_dump_on_local_db
   end
 end
 
@@ -173,7 +173,7 @@ command :"db:remote:execute" do |c|
   c.description = "Execute SQL dump on the project's live database."
   c.action do |args|
     name = args.first || "#{File.basename(Dir.pwd)}"
-    Pave::Database.new(name).execute_remote
+    Pave::Database.new(name).execute_local_dump_on_remote_db
   end
 end
 
@@ -182,7 +182,7 @@ command :"db:download" do |c|
   c.description = "Download SQL dump of the project's live database."
   c.action do |args|
     name = args.first || "#{File.basename(Dir.pwd)}"
-    Pave::Database.new(name).download
+    Pave::Database.new(name).download_remote_to_local
   end
 end
 
@@ -191,7 +191,7 @@ command :"db:upload" do |c|
   c.description = "Upload SQL dump of the project's database."
   c.action do |args|
     name = args.first || "#{File.basename(Dir.pwd)}"
-    Pave::Database.new(name).upload
+    Pave::Database.new(name).upload_local_dump_to_remote
   end
 end
 
@@ -251,10 +251,11 @@ end
 alias_command :"g:theme", :"generate:theme"
 
 command :watch do |c|
-  c.syntax = "pave watch"
+  c.syntax = "pave watch BROWSER"
   c.description = "Watch for sass changes."
   c.action do |args|
-    Pave::Theme.watch
+    browser = args.first || "chrome"
+    Pave::Theme.watch(browser)
   end
 end
 
@@ -277,9 +278,10 @@ command :"deploy:setup" do |c|
 end
 
 command :"livereload" do |c|
-  c.syntax = "pave livereload"
+  c.syntax = "pave livereload BROWSER"
   c.description = "Watch project for changes and refresh page."
   c.action do |args|
-    Pave::Reload.live_reload
+    browser = args.first || "chrome"
+    Pave::Reload.live_reload(browser)
   end
 end

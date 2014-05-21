@@ -1,6 +1,6 @@
 module Pave
   class Reload
-    def self.live_reload
+    def self.live_reload(browser="chrome")
       # docs: http://brettterpstra.com/2011/03/07/watch-for-file-changes-and-refresh-your-browser-automatically/
       trap("SIGINT") { exit }
 
@@ -19,20 +19,49 @@ module Pave
           hash = new_hash
 
           diff_hash.each do |df|
-            puts "Detected change in #{df[0]}, refreshing"
-            %x{osascript<<ENDGAME
-              tell application "Google Chrome"
-                set windowList to every window
-                repeat with aWindow in windowList
-                  set tabList to every tab of aWindow
-                  repeat with atab in tabList
-                    if (URL of atab contains "#{keyword}") then
-                      tell atab to reload
-                    end if
+            print "Detected change in #{df[0]}, refreshing"
+            if browser == "chrome"
+              print " Chrome"
+              %x{osascript<<ENDGAME
+                tell application "Google Chrome"
+                  set windowList to every window
+                  repeat with aWindow in windowList
+                    set tabList to every tab of aWindow
+                    repeat with atab in tabList
+                      if (URL of atab contains "#{keyword}") then
+                        tell atab to reload
+                      end if
+                    end repeat
                   end repeat
-                end repeat
-              end tell
-            }
+                end tell
+              }
+            elsif browser == "safari"
+              print " Safari"
+              %x{osascript<<ENDGAME
+                tell application "Safari"
+                  set windowList to every window
+                  repeat with aWindow in windowList
+                    set tabList to every tab of aWindow
+                    repeat with atab in tabList
+                      if (URL of atab contains "#{keyword}") then
+                        tell atab to set its URL to (get its URL)
+                      end if
+                    end repeat
+                  end repeat
+                end tell
+              }
+            elsif browser == "firefox"
+              print " Firefox"
+              %x{osascript<<ENDGAME
+                tell app "Firefox" to activate
+                tell app "System Events"
+                  keystroke "r" using command down
+                end tell
+              }
+            else
+              puts "#{browser} is not supported yet. Feel free to add it and create a pull request!"
+            end
+            puts ""
           end
         end
 

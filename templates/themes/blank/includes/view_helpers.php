@@ -1,23 +1,35 @@
 <?
 
-  function id_edit_mode() {
+  function is_edit_mode() {
     global $c;
     if ($c->isEditMode()) {
       echo "edit-mode";
     }
   }
 
-  function image_tag($t, $img) {
-    $imgPath = ($t->getThemePath()) . "/images/";
-    echo "<img src='" . $imgPath . $img . "' />";
-  } 
+  function is_logged_in() {
+    global $u;
+    if ($u -> isLoggedIn ()) {
+      echo "logged-in";
+    }
+  }
 
   function has_blocks($area) {
-    if ($area->getTotalBlocksInArea($c) > 0) { 
-      return true;
+    global $c;
+    return $area->getTotalBlocksInArea($c) > 0;
+  }
+
+  function image_tag($t, $img, $html_options = false) {
+    $imgPath = ($t->getThemePath()) . "/images/";
+    if ($html_options) {
+      $options = " alt='" . explode(".", $img, 2)[0] . "'";
+      foreach ($html_options as $k => $v) {
+        $options .= " " . $k . "='" . addslashes($v) . "'";
+      }
     } else {
-      return false;
-    }
+      $options = " alt='" . explode(".", $img, 2)[0] . "'";
+    };
+    echo "<img src='" . $imgPath . $img . "'" . $options . " />";
   }
 
 ?>
