@@ -9,11 +9,11 @@ module Pave
       Struct.new(:status, :output).new($?, output)
     end
 
-    def sh(command)
-      result = shell(command)
+    def sh(cmd)
+      result = shell(cmd)
       puts result.output
       result.status
-    end 
+    end
 
     def sed(filename, command)
       sh "sed -i '.bak' '#{command}' #{filename}"
