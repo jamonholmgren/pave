@@ -19,6 +19,7 @@ module Pave
       set_up_pave
       clone_concrete5
       set_up_folders
+      add_config_customizations
       set_up_git
       create_virtual_host
       self
@@ -52,6 +53,14 @@ module Pave
       gitkept_folders.each{ |folder| sh "touch #{name}/#{folder}/.keep" }
       sh "touch #{name}/files/.keep"
       sh "touch #{name}/updates/.keep"
+    end
+
+    def add_config_customizations
+      sh "cd concrete/core/controllers/single_pages && sed -i '.bak' 's/.*{$salt}.*/&\ $configuration .= \"define(\\\"ENABLE_NEWSFLOW_OVERLAY\\\", false);\\n\";/' install.php"
+      sh "cd concrete/core/controllers/single_pages && sed -i '.bak' 's/.*{$salt}.*/&\ $configuration .= \"define(\\\"PERMISSIONS_MODEL\\\", \\\"advanced\\\");\\n\";/' install.php"
+      sh "cd concrete/core/controllers/single_pages && sed -i '.bak' 's/.*{$salt}.*/&\ $configuration .= \"define(\\\"STATISTICS_TRACK_PAGE_VIEWS\\\", false);\\n\";/' install.php"
+      sh "cd concrete/core/controllers/single_pages && sed -i '.bak' 's/.*{$salt}.*/&\ $configuration .= \"define(\\\"WHITE_LABEL_DASHBOARD_BACKGROUND_SRC\\\", \\\"/concrete/images/spacer.gif\\\");\\n\";/' install.php"
+      sh "cd concrete/core/controllers/single_pages && sed -i '.bak' 's/.*{$salt}.*/&\ $configuration .= \"define(\\\"ENABLE_INTELLIGENT_SEARCH_HELP\\\", false);\\n\";/' install.php"
     end
 
     def gitignored
