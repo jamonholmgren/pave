@@ -44,6 +44,12 @@ module Pave
       sh "cp -a #{Pave.template_folder}/themes/blank #{Dir.pwd}/themes/#{self.name}"
     end
 
+    def create_project_css_folders
+      sh "cd themes/#{self.name}/css/ && mkdir -p #{self.name}/{components,layouts}"
+      sh "cd themes/#{self.name}/css/#{self.name} && touch ./components/_components.scss && touch ./layouts/_layouts.scss"
+      sh "cd themes/#{self.name}/css/#{self.name} && echo \"\n@import 'components/components'\" >> ./styles.scss && echo \"\n@import 'layouts/layouts'\" >> ./styles.scss"
+    end
+
     def setup
       say "Creating theme..."
       copy_theme
@@ -51,6 +57,7 @@ module Pave
       install_bourbon
       install_neat
       install_bitters
+      create_project_css_folders
       say "Docs for Neat: http://neat.bourbon.io/"
       say "Docs for Bitters: https://github.com/thoughtbot/bitters"
       say ""
