@@ -57,15 +57,19 @@ module Pave
 
     def add_config_customizations
       config_file = "#{name}/concrete/core/controllers/single_pages/install.php"
-      sed config_file, command =<<HD
-s/.*{$salt}.*/&\
-$configuration .= "\
-define("ENABLE_NEWSFLOW_OVERLAY", false);\
-define("PERMISSIONS_MODEL", "advanced");\
-define("STATISTICS_TRACK_PAGE_VIEWS", false);\
-define("WHITE_LABEL_DASHBOARD_BACKGROUND_SRC", "concrete");\
-define("ENABLE_INTELLIGENT_SEARCH_HELP", false);\
-";/
+      insert_pattern = "'{$salt}');\\n\";"
+      file_insert config_file, insert_pattern, config_customizations
+    end
+
+    def config_customizations
+      command =<<HD
+$configuration .= '
+define(\"ENABLE_NEWSFLOW_OVERLAY\", false);
+define(\"PERMISSIONS_MODEL\", \"advanced\");
+define(\"STATISTICS_TRACK_PAGE_VIEWS\", false);
+define(\"WHITE_LABEL_DASHBOARD_BACKGROUND_SRC\", \"/concrete/images/spacer.gif\");
+define(\"ENABLE_INTELLIGENT_SEARCH_HELP\", false);
+';
 HD
       command
     end
