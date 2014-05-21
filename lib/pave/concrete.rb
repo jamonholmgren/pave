@@ -56,12 +56,18 @@ module Pave
     end
 
     def add_config_customizations
-      sh_prefix = "cd #{name}/concrete/core/controllers/single_pages && sed -i '.bak' 's/.*{$salt}.*/&\\ $configuration .="
-      sh "#{sh_prefix} \\\"define(\\\\\"ENABLE_NEWSFLOW_OVERLAY\\\\\", false);\\\\n\\\";/' install.php"
-      sh "#{sh_prefix} \\\"define(\\\\\"PERMISSIONS_MODEL\\\\\", \\\\\"advanced\\\\\");\\\\n\\\";/' install.php"
-      sh "#{sh_prefix} \\\"define(\\\\\"STATISTICS_TRACK_PAGE_VIEWS\\\\\", false);\\\\n\\\";/' install.php"
-      sh "#{sh_prefix} \\\"define(\\\\\"WHITE_LABEL_DASHBOARD_BACKGROUND_SRC\\\\\", \\\\\"\\/concrete\\/images\\/spacer.gif\\\\\");\\\\n\\\";/' install.php"
-      sh "#{sh_prefix} \\\"define(\\\\\"ENABLE_INTELLIGENT_SEARCH_HELP\\\\\", false);\\\\n\\\";/' install.php"
+      config_file = "#{name}/concrete/core/controllers/single_pages/install.php"
+      sed config_file, command =<<HD
+s/.*{$salt}.*/&\
+$configuration .= "
+define("ENABLE_NEWSFLOW_OVERLAY", false);
+define("PERMISSIONS_MODEL", "advanced");
+define("STATISTICS_TRACK_PAGE_VIEWS", false);
+define("WHITE_LABEL_DASHBOARD_BACKGROUND_SRC", "concrete");
+define("ENABLE_INTELLIGENT_SEARCH_HELP", false);
+";/
+HD
+      command
     end
 
     def gitignored

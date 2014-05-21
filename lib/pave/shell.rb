@@ -13,6 +13,10 @@ module Pave
       result = shell(command)
       puts result.output
       result.status
+    end 
+
+    def sed(filename, command)
+      sh "sed -i '.bak' '#{command}' #{filename}"
     end
   end
 end
