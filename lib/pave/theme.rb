@@ -8,9 +8,10 @@ module Pave
       new(name).setup
     end
 
-    def self.watch(browser)
-      system("pave livereload #{browser} &")
-      system("sass --watch ./themes/ --style compressed")
+    def watch(browser)
+      system "pave livereload #{browser} &"
+      system "sass --watch ./themes/ --style compressed &"
+      system "coffee -wcj ./themes/#{name}/js/app.js ./themes/#{name}/js/"
     end
 
     def initialize(name)
