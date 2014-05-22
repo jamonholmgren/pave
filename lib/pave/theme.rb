@@ -47,7 +47,7 @@ module Pave
     def create_project_css_folders
       sh "cd themes/#{self.name}/css/ && mkdir -p #{self.name}/{components,layouts}"
       sh "cd themes/#{self.name}/css/#{self.name} && touch ./components/_components.scss && touch ./layouts/_layouts.scss"
-      sh "cd themes/#{self.name}/css/ && echo \"@import 'components/components';\" >> ./styles.scss && echo \"@import 'layouts/layouts';\" >> ./styles.scss"
+      sh "cd themes/#{self.name}/css/ && echo \"@import '#{self.name}/components/components';\" >> ./styles.scss && echo \"@import '#{self.name}/layouts/layouts';\" >> ./styles.scss"
     end
 
     def setup
