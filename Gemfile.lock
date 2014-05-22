@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pave (0.12.1)
+    pave (0.13.0)
       commander (~> 4.1)
 
 GEM

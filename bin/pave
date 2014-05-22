@@ -242,7 +242,7 @@ end
 
 command :"generate:theme" do |c|
   c.syntax = "pave generate:theme THEME_NAME"
-  c.description = "Set up a blank theme with sass."
+  c.description = "Set up a blank theme with Sass and CoffeeScript support."
   c.action do |args|
     name = args.first || "#{File.basename(Dir.pwd)}"
     Pave::Theme.create(name)
@@ -252,7 +252,7 @@ alias_command :"g:theme", :"generate:theme"
 
 command :watch do |c|
   c.syntax = "pave watch BROWSER"
-  c.description = "Watch for sass changes."
+  c.description = "Watch for Sass and CoffeeScript changes."
   c.action do |args|
     browser = args.first || "chrome"
     name = args.last || "#{File.basename(Dir.pwd)}"
