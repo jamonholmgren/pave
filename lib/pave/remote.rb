@@ -4,7 +4,7 @@ module Pave
 
     def self.setup
       server = ask "Username and hostname of the remote server (e.g. user@server.com): "
-      folder = ask "Name of the remote directory (e.g. ~/webapps/appname/): "
+      folder = ask "Name of the remote directory (e.g. ~/webapps/appname): "
       remote = ask "Desired git remote name (e.g. live): "
       script = File.join(File.expand_path("../..", File.dirname(__FILE__)), "resources/deploy.sh")
 
@@ -23,12 +23,11 @@ module Pave
 
     def self.url(remote="live")
       remotes = shell("git remote -v").output
-      remote_matches = remotes.match(/#{remote}\s+(.*)\s+\(push\)/)
-      if remote_matches
-        remote_matches[1]
-      else
-        say "No git remote named `#{remote}` found."
-        abort
+      begin
+        remotes.match(/#{remote}\s+(.*)\s+\(push\)/)[1]
+      rescue NoMethodError
+        puts "Could not find remote named #{remote}. Please run `pave deploy:setup` to create it."
+        exit
       end
     end
 

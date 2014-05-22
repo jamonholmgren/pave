@@ -19,6 +19,7 @@ module Pave
       set_up_pave
       clone_concrete5
       set_up_folders
+      add_config_customizations
       set_up_git
       create_virtual_host
       self
@@ -52,6 +53,25 @@ module Pave
       gitkept_folders.each{ |folder| sh "touch #{name}/#{folder}/.keep" }
       sh "touch #{name}/files/.keep"
       sh "touch #{name}/updates/.keep"
+    end
+
+    def add_config_customizations
+      config_file = "#{name}/concrete/core/controllers/single_pages/install.php"
+      insert_pattern = "'{$salt}');\\n\";"
+      file_insert config_file, insert_pattern, config_customizations
+    end
+
+    def config_customizations
+      command =<<HD
+$configuration .= '
+define(\"ENABLE_NEWSFLOW_OVERLAY\", false);
+define(\"PERMISSIONS_MODEL\", \"advanced\");
+define(\"STATISTICS_TRACK_PAGE_VIEWS\", false);
+define(\"WHITE_LABEL_DASHBOARD_BACKGROUND_SRC\", \"/concrete/images/spacer.gif\");
+define(\"ENABLE_INTELLIGENT_SEARCH_HELP\", false);
+';
+HD
+      command
     end
 
     def gitignored

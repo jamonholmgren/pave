@@ -1,3 +1,3 @@
 module Pave
-  VERSION = "0.12.0.rc4"
+  VERSION = "0.13.0"
 end

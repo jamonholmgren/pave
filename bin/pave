@@ -264,7 +264,8 @@ command :watch do |c|
   c.description = "Watch for sass changes."
   c.action do |args|
     browser = args.first || "chrome"
-    Pave::Theme.watch(browser)
+    name = args.last || "#{File.basename(Dir.pwd)}"
+    Pave::Theme.new(name).watch(browser)
   end
 end
 

@@ -8,9 +8,10 @@ module Pave
       new(name).setup
     end
 
-    def self.watch(browser)
-      system("pave livereload #{browser} &")
-      system("sass --watch ./themes/ --style compressed")
+    def watch(browser)
+      system "pave livereload #{browser} &"
+      system "sass --watch ./themes/ --style compressed &"
+      system "coffee -wcj ./themes/#{name}/js/app.js ./themes/#{name}/js/"
     end
 
     def initialize(name)
@@ -44,6 +45,12 @@ module Pave
       sh "cp -a #{Pave.template_folder}/themes/blank #{Dir.pwd}/themes/#{self.name}"
     end
 
+    def create_project_css_folders
+      sh "cd themes/#{self.name}/css/ && mkdir -p #{self.name}/{components,layouts}"
+      sh "cd themes/#{self.name}/css/#{self.name} && touch ./components/_components.scss && touch ./layouts/_layouts.scss"
+      sh "cd themes/#{self.name}/css/ && echo \"@import '#{self.name}/components/components';\" >> ./styles.scss && echo \"@import '#{self.name}/layouts/layouts';\" >> ./styles.scss"
+    end
+
     def setup
       say "Creating theme..."
       copy_theme
@@ -51,6 +58,7 @@ module Pave
       install_bourbon
       install_neat
       install_bitters
+      create_project_css_folders
       say "Docs for Neat: http://neat.bourbon.io/"
       say "Docs for Bitters: https://github.com/thoughtbot/bitters"
       say ""
