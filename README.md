@@ -24,7 +24,7 @@ This:
 4. Adds a `.gitignore` and `.keep`s
 5. Attempts to create a virtual host `mywebsite.site`
 
-## Deployments
+## Deployment
 
     $ pave deploy:setup
 
@@ -40,9 +40,9 @@ Deploys feature-branch to staging remote.
 
 ## Database
 
-    $ pave db:create mydatabase
+    $ pave db:create [mydatabase]
 
-Creates a local MySQL database called `mydatabase`
+Creates a local MySQL database called `mydatabase`. Omitting the database name will create a database with the same name as the current directory.
 
     $ pave db:push
 
@@ -70,13 +70,13 @@ Pulls the remote `files/*` folder and replaces your local version.
 
 *TODO:* Pulls newer remote files and pushes newer local files. Ignores cache and tmp files.
 
-## Virtual host setup
+## Virtual Host
 
-    $ sudo pave vh:create myhost.site
+    $ sudo pave vh:create [myhost.site]
 
-Sets up an Apache virtual host in the current directory on `myhost.site`.
+Sets up an Apache virtual host in the current directory on `myhost.site`. Omitting the hostname argument will create a virtual host with the same name as the current directory (i.e. `myapp.site` if the current directory is `myapp`).
 
-    $ sudo pave vh:remove myhost.site
+    $ sudo pave vh:remove [myhost.site]
 
 Removes myhost.site virtual host.
 
@@ -91,6 +91,16 @@ Restores your previously backed up virtual host file.
     $ sudo pave vh:restart
 
 Restarts Apache.
+
+## Themes
+
+    $ pave g:theme [mytheme]
+    
+Generates a theme in with the name `mytheme` in the `theme` directory. Omitting the theme name will create a theme with the same name as the current directory.
+
+    $ pave watch [browser] [mytheme]
+    
+Watches for changes in the `mytheme` directory. Compiles SASS and CoffeeScript files when they change and reloads the browser. The default the browser is Chrome but Safari and Firefox are also supported. A theme with the same name as the current directory is assumed unless a theme name is specified.
 
 ## Help
 
