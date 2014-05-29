@@ -36,7 +36,7 @@ module Pave
     end
 
     def install_bitters
-      say "Installing Bitters"
+      say "Installing Bitters..."
       sh "gem install bitters"
       sh "cd themes/#{self.name}/css/ && bitters install && cd -"
     end
