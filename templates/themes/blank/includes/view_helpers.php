@@ -48,7 +48,35 @@
     } else {
       $options = " alt='" . explode(".", $img, 2)[0] . "'";
     };
-    echo "<img src='" . $imgPath . $img . "'" . $options . " />";
+    return "<img src='" . $imgPath . $img . "'" . $options . " />";
+  }
+
+  function lorem() {
+    // Possible arguments:
+    //
+    // (integer) - The number of paragraphs to generate.
+    // short, medium, long, verylong - The average length of a paragraph.
+    // decorate - Add bold, italic and marked text.
+    // link - Add links.
+    // ul - Add unordered lists.
+    // ol - Add numbered lists.
+    // dl - Add description lists.
+    // bq - Add blockquotes.
+    // code - Add code samples.
+    // headers - Add headers.
+    // allcaps - Use ALL CAPS.
+    // prude - Prude version.
+    // plaintext - Return plain text, no HTML.
+    //
+    // See http://loripsum.net/ for more details.
+
+    $url = "http://loripsum.net/api/";
+    if (func_num_args()) {
+      $url .= implode("/", func_get_args());
+    } else {
+      $url .= "1";
+    }
+    return file_get_contents($url);
   }
 
   function page_specific_scripts($page, $t) {
