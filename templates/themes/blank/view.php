@@ -1,8 +1,8 @@
-<?php
-   defined("C5_EXECUTE") or die("Access Denied.");
-   $this->inc("elements/header.php");
+<?
+  defined("C5_EXECUTE") or die("Access Denied.");
+  $this->inc("elements/header.php");
 ?>
 
-	<?php  print $innerContent; ?>
+  <? print $innerContent; ?>
 
-<?php  $this->inc("elements/footer.php"); ?>
+<? $this->inc("elements/footer.php"); ?>

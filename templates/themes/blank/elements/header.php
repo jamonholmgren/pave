@@ -1,9 +1,9 @@
-<?php
+<?
   defined("C5_EXECUTE") or die("Access Denied.");
   $this->inc("includes/view_helpers.php");
 ?>
 <!DOCTYPE html>
-<html lang="<?= LANGUAGE?>">
+<html lang="<?= LANGUAGE ?>">
   <head>
     <?php Loader::element("header_required"); ?>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -22,13 +22,13 @@
     <?= image_tag($this, "logo.png", ["class" => "main-logo"]); ?>
 
     <!-- block example -->
-    <?php
+    <?
       $a = new Area("Header");
       $a->display($c);
     ?>
 
     <!-- nav example -->
-    <?php
+    <?
       $nav = BlockType::getByHandle("autonav");
       $nav->controller->orderBy = "display_asc";
       $nav->controller->displayPages = "top";
