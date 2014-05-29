@@ -59,8 +59,9 @@ module Pave
       install_neat
       install_bitters
       create_project_css_folders
+      say "Docs for Bourbon: http://bourbon.io/docs/"
       say "Docs for Neat: http://neat.bourbon.io/"
-      say "Docs for Bitters: https://github.com/thoughtbot/bitters"
+      say "Docs for Bitters: http://bitters.bourbon.io/"
       say ""
       say "Theme installed. Run `pave watch` to generate css from your sass files."
     end
