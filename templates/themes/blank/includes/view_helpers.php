@@ -48,7 +48,19 @@
     } else {
       $options = " alt='" . explode(".", $img, 2)[0] . "'";
     };
-    echo "<img src='" . $imgPath . $img . "'" . $options . " />";
+    return "<img src='" . $imgPath . $img . "'" . $options . " />";
+  }
+
+  function image_placeholder_tag($width, $height = false, $text = false, $html_options = false) {
+    $img = "http://placehold.it/" . $width . ($height ? "x" . $height : "") . ($text ? "&text=" . $text : "");
+
+    if ($html_options) {
+      foreach ($html_options as $k => $v) {
+        $options .= " " . $k . "='" . addslashes($v) . "'";
+      }
+    }
+
+    return "<img src='" . $img . "'" . $options . " />";
   }
 
   function page_specific_scripts($page, $t) {
