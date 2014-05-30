@@ -77,7 +77,8 @@ command :"virtualhost:create" do |c|
   c.description = "Setup virtual host for Concrete5 project."
   c.action do |args|
     host = args.first || "#{File.basename(Dir.pwd)}.site"
-    Pave::VirtualHost.new(host).create_vhost
+    dir = args[1] || Dir.pwd
+    Pave::VirtualHost.new(host, dir).create_vhost
   end
 end
 alias_command :"vh:create", :"virtualhost:create"
@@ -87,7 +88,8 @@ command :"virtualhost:remove" do |c|
   c.description = "Delete virtual host."
   c.action do |args|
     host = args.first || "#{File.basename(Dir.pwd)}.site"
-    Pave::VirtualHost.new(host).remove_vhost
+    dir = args[1] || Dir.pwd
+    Pave::VirtualHost.new(host, dir).remove_vhost
   end
 end
 alias_command :"vh:remove", :"virtualhost:remove"
@@ -98,7 +100,7 @@ command :"virtualhost:backup" do |c|
   c.syntax = "pave virtualhost:backup"
   c.description = "Back up virtual hosts file. Restore with `pave virtualhost:restore`."
   c.action do
-    Pave::VirtualHost.new("").backup_vhost
+    Pave::VirtualHost.backup_vhost
   end
 end
 alias_command :"vh:backup", :"virtualhost:backup"
@@ -107,7 +109,7 @@ command :"virtualhost:restore" do |c|
   c.syntax = "pave virtualhost:restore"
   c.description = "Restore previously backed up virtual hosts file."
   c.action do
-    Pave::VirtualHost.new("").restore_vhost
+    Pave::VirtualHost.restore_vhost
   end
 end
 alias_command :"vh:restore", :"virtualhost:restore"
@@ -116,7 +118,7 @@ command :"virtualhost:restart" do |c|
   c.syntax = "pave virtualhost:restart"
   c.description = "Restarts apache."
   c.action do
-    Pave::VirtualHost.new("").restart_apache
+    Pave::VirtualHost.restart_apache
   end
 end
 alias_command :"vh:restart", :"virtualhost:restart"
