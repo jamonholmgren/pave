@@ -5,7 +5,7 @@
     echo "<pre>";
     if($die) {
       die();
-    };
+    }
   }
 
   function is_edit_mode() {
@@ -40,6 +40,7 @@
 
   function image_tag($t, $img, $html_options = false) {
     $imgPath = ($t->getThemePath()) . "/images/";
+
     if ($html_options) {
       $options = " alt='" . explode(".", $img, 2)[0] . "'";
       foreach ($html_options as $k => $v) {
@@ -47,8 +48,21 @@
       }
     } else {
       $options = " alt='" . explode(".", $img, 2)[0] . "'";
-    };
+    }
+
     return "<img src='" . $imgPath . $img . "'" . $options . " />";
+  }
+
+  function image_placeholder_tag($width, $height = false, $text = false, $html_options = false) {
+    $img = "http://placehold.it/" . $width . ($height ? "x" . $height : "") . ($text ? "&text=" . $text : "");
+
+    if ($html_options) {
+      foreach ($html_options as $k => $v) {
+        $options .= " " . $k . "='" . addslashes($v) . "'";
+      }
+    }
+
+    return "<img src='" . $img . "'" . $options . " />";
   }
 
   function lorem() {
