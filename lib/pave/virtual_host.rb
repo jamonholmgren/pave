@@ -4,34 +4,40 @@ module Pave
   class VirtualHost
     include Pave::Shell
 
-    attr_accessor :hostname
+    attr_accessor :hostname, :directory
 
-    def initialize(host)
+    VHOST_CONF_FILE = "/etc/apache2/extra/httpd-vhosts.conf".freeze
+    VHOST_CONF_FILE_BACKUP = "#{VHOST_CONF_FILE}.backup".freeze
+    HOSTS_FILE = "/etc/hosts".freeze
+    HOSTS_FILE_BACKUP = "#{HOSTS_FILE}.backup".freeze
+
+    def initialize(host, dir)
       @hostname = host
+      @directory = dir
     end
 
-    def restart_apache
+    def self.restart_apache
       `sudo apachectl restart`
       say "Apache restarted."
       true
     end
 
-    def backup_vhost
-      File.delete(vhosts_conf_file_backup) if File.exist?(vhosts_conf_file_backup)
-      FileUtils.cp vhosts_conf_file, vhosts_conf_file_backup
-      File.delete(hosts_file_backup) if File.exist?(hosts_file_backup)
-      FileUtils.cp hosts_file, hosts_file_backup
+    def self.backup_vhost
+      File.delete(VHOST_CONF_FILE_BACKUP) if File.exist?(VHOST_CONF_FILE_BACKUP)
+      FileUtils.cp VHOST_CONF_FILE, VHOST_CONF_FILE_BACKUP
+      File.delete(HOSTS_FILE_BACKUP) if File.exist?(HOSTS_FILE_BACKUP)
+      FileUtils.cp HOSTS_FILE, HOSTS_FILE_BACKUP
       say "Backed up vhosts conf and hosts file. Use `pave vh:restore` to restore them."
     end
 
-    def restore_vhost
-      return say "Couldn't find vhosts backup." unless File.exist?(vhosts_conf_file_backup)
-      File.delete(vhosts_conf_file)
-      FileUtils.cp vhosts_conf_file_backup, vhosts_conf_file
+    def self.restore_vhost
+      return say "Couldn't find vhosts backup." unless File.exist?(VHOST_CONF_FILE_BACKUP)
+      File.delete(VHOST_CONF_FILE)
+      FileUtils.cp VHOST_CONF_FILE_BACKUP, VHOST_CONF_FILE
 
-      return say "Couldn't find host file backup." unless File.exist?(hosts_file_backup)
-      File.delete(hosts_file)
-      FileUtils.cp hosts_file_backup, hosts_file
+      return say "Couldn't find host file backup." unless File.exist?(HOSTS_FILE_BACKUP)
+      File.delete(HOSTS_FILE)
+      FileUtils.cp HOSTS_FILE_BACKUP, HOSTS_FILE
 
       restart_apache
 
@@ -42,19 +48,19 @@ module Pave
       return say "No virtual host backup found. Run `pave vh:backup` before adding a virtual host." unless check_backup
       return say "No host name provided. Run `pave help` for more details." unless hostname.size > 0
 
-      add_vhost_to_conf && add_hosts_entry && restart_apache && say("Created virtual host for #{hostname}.")
+      add_vhost_to_conf && add_hosts_entry && self.class.restart_apache && say("Created virtual host for #{hostname}.")
     end
 
     def remove_vhost
       return say "No virtual host backup found. Run `pave vh:backup` before adding a virtual host." unless check_backup
 
-      remove_vhost_from_conf && remove_hosts_entry && restart_apache && say("Removed virtual host for #{hostname}.")
+      remove_vhost_from_conf && remove_hosts_entry && self.class.restart_apache && say("Removed virtual host for #{hostname}.")
     end
 
     private
 
     def add_hosts_entry
-      File.open(hosts_file, "a") do |f|
+      File.open(HOSTS_FILE, "a") do |f|
         f.puts "127.0.0.1 #{hostname}"
         f.puts "fe80::1%lo0 #{hostname}"
       end
@@ -70,14 +76,14 @@ module Pave
         end
       end
 
-      File.open(hosts_file, "w") do |f|
+      File.open(HOSTS_FILE, "w") do |f|
         f.puts host_array.compact.join("\n")
       end
       true
     end
 
     def add_vhost_to_conf
-      File.open(vhosts_conf_file, "a") do |f|
+      File.open(VHOST_CONF_FILE, "a") do |f|
         f.puts virtual_host_entry
       end
       true
@@ -93,7 +99,7 @@ module Pave
 
         # Set all those lines to nil (so we can compact them later)
         ((vhost_line - 6)..(vhost_line + 3)).each {|i| vhost_array[i] = nil }
-        File.open(vhosts_conf_file, "w") do |f|
+        File.open(VHOST_CONF_FILE, "w") do |f|
           f.puts vhost_array.compact.join("\n")
         end
         true
@@ -104,47 +110,27 @@ module Pave
     end
 
     def check_backup
-      File.exist?(vhosts_conf_file_backup)
+      File.exist?(VHOST_CONF_FILE_BACKUP)
     end
 
     def virtual_host_entry
-      "\n<Directory \"#{project_folder}\">\n" <<
+      "\n<Directory \"#{directory}\">\n" <<
       "  Allow From All\n" <<
       "  AllowOverride All\n" <<
       "  Options +Indexes\n" <<
       "</Directory>\n" <<
       "<VirtualHost *:80>\n" <<
       "  ServerName \"#{hostname}\"\n" <<
-      "  DocumentRoot \"#{project_folder}\"\n" <<
+      "  DocumentRoot \"#{directory}\"\n" <<
       "</VirtualHost>\n"
     end
 
-    def project_folder
-      Dir.pwd
-    end
-
     def vhosts_file_array
-      File.open(vhosts_conf_file).map {|l| l.rstrip}
+      File.open(VHOST_CONF_FILE).map(&:rstrip)
     end
 
     def hosts_file_array
-      File.open(hosts_file).map {|l| l.rstrip}
-    end
-
-    def vhosts_conf_file
-      "/etc/apache2/extra/httpd-vhosts.conf"
-    end
-
-    def vhosts_conf_file_backup
-      vhosts_conf_file + ".backup"
-    end
-
-    def hosts_file
-      "/etc/hosts"
-    end
-
-    def hosts_file_backup
-      hosts_file + ".backup"
+      File.open(HOSTS_FILE).map(&:rstrip)
     end
 
   end

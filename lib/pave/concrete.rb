@@ -86,10 +86,10 @@ HD
 
     def create_virtual_host
       say "* Setting up virtual host..."
-      if sh("sudo pave vh:create #{name}.site") == 0
+      if sh("sudo pave vh:create #{name}.site #{Dir.pwd}/#{name}") == 0
         say "Successfully setup virtual host #{name}.site."
       else
-        say "Virtual host not set up. Run `pave vh:create #{name}.site` to create it."
+        say "Virtual host not set up. Run `pave vh:create #{name}.site ./#{name}` to create it."
       end
     end
 
