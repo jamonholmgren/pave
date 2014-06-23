@@ -242,6 +242,15 @@ command :"files:push" do |c|
   end
 end
 
+command :"files:sync" do |c|
+  c.syntax = "pave files:sync"
+  c.description = "Syncronize local and remote files directories."
+  c.action do |args|
+    remote = args.first || "live"
+    Pave::Files.sync(remote)
+  end
+end
+
 command :"generate:theme" do |c|
   c.syntax = "pave generate:theme THEME_NAME"
   c.description = "Set up a blank theme with Sass and CoffeeScript support."
