@@ -57,7 +57,7 @@ module Pave
 
     def add_config_customizations
       config_file = "#{name}/concrete/core/controllers/single_pages/install.php"
-      insert_pattern = "'{$salt}');\\n\";"
+      insert_pattern = "['DB_DATABASE']) . \"');\\n\";"
       file_insert config_file, insert_pattern, config_customizations
     end
 
