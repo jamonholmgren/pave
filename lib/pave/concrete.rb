@@ -30,8 +30,8 @@ module Pave
     end
 
     def clone_concrete5
-      c5 = "concrete5.6.2.1"
-      c5_link = "http://www.concrete5.org/download_file/-/view/58379/8497"
+      c5 = "concrete5.6.3.1"
+      c5_link = "http://www.concrete5.org/download_file/-/view/66159/8497/"
       unless File.exists?(File.join(Dir.home, ".pave/#{c5}.zip"))
         say "* Downloading #{c5}..."
         sh "curl #{c5_link} > ~/.pave/#{c5}.zip"
@@ -57,7 +57,7 @@ module Pave
 
     def add_config_customizations
       config_file = "#{name}/concrete/core/controllers/single_pages/install.php"
-      insert_pattern = "'{$salt}');\\n\";"
+      insert_pattern = "['DB_DATABASE']) . \"');\\n\";"
       file_insert config_file, insert_pattern, config_customizations
     end
 
