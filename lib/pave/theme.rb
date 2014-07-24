@@ -9,9 +9,20 @@ module Pave
     end
 
     def watch(browser)
-      system "pave livereload #{browser} &"
-      system "sass --watch ./themes/ --style compressed &"
-      system "coffee -wcj ./themes/#{name}/js/app.js ./themes/#{name}/js/"
+      processes = []
+      processes << Process.spawn("pave livereload #{browser}", out: $stdout, err: $stderr)
+      processes << Process.spawn("sass --watch ./themes/ --style compressed", out: $stdout, err: $stderr)
+      processes << Process.spawn("coffee -wcj ./themes/#{name}/js/app.js ./themes/#{name}/js/", out: $stdout, err: $stderr)
+
+      Signal.trap("INT") do
+        processes.map do |pid|
+          Process.kill("INT", pid)
+        end
+
+        exit!
+      end
+
+      Process.wait processes.sample # Just wait on a random process
     end
 
     def initialize(name)
