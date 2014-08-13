@@ -15,7 +15,7 @@ module Pave
       sh "sudo rm -rf ./files/tmp; sudo rm -rf ./files/cache;"
     end
 
-    def self.push(remote="live", method="rsync")
+    def self.push(remote="live", method="zip")
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)
       clear_cache
@@ -34,7 +34,7 @@ module Pave
       end
     end
 
-    def self.pull(remote="live", method="rsync")
+    def self.pull(remote="live", method="zip")
       server = Pave::Remote.server(remote)
       directory = Pave::Remote.directory(remote)
       clear_cache

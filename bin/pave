@@ -229,7 +229,7 @@ command :"files:pull" do |c|
   c.description = "Download the project's live files directory."
   c.option '-m', '--method METHOD', String, 'Specify a method: zip or rsync'
   c.action do |args, options|
-    method = options.method || "rsync"
+    method = options.method || "zip"
     remote = args.first || "live"
     Pave::Files.pull(remote, method)
   end
@@ -240,7 +240,7 @@ command :"files:push" do |c|
   c.description = "Upload the project's local files directory."
   c.option '-m', '--method METHOD', String, 'Specify a method: zip or rsync'
   c.action do |args, options|
-    method = options.method || "rsync"
+    method = options.method || "zip"
     remote = args.first || "live"
     Pave::Files.push(remote, method)
   end
