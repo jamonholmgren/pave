@@ -27,7 +27,7 @@ module Pave
         sh "scp ./tmp_files_zip_local.zip #{remote_url}"
         if backup_files('remote', remote)
           if unzip_files('remote', remote)
-            remove_zipped_files(remote)
+            remove_zipped_files
           end
         end
         say "Done"
@@ -46,7 +46,7 @@ module Pave
             say "Downloading zip from remote server"
             sh "scp #{remote_url}/tmp_files_zip_remote.zip ./"
             if unzip_files('local')
-              remove_zipped_files(remote)
+              remove_zipped_files
             end
           end
         end
@@ -83,12 +83,9 @@ module Pave
       end
     end
 
-    def self.remove_zipped_files(remote)
+    def self.remove_zipped_files
       say "Cleaning up"
       sh "rm -rf tmp_files_zip_local.zip; rm -rf tmp_files_zip_remote.zip"
-      server = Pave::Remote.server(remote)
-      directory = Pave::Remote.directory(remote)
-      sh "ssh #{server} \"cd #{directory}; rm -rf tmp_files_zip_local.zip; rm -rf tmp_files_zip_remote.zip\""
     end
 
     def self.remote_url(remote="live")
