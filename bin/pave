@@ -225,20 +225,24 @@ end
 alias_command :"cache:clear", :"files:cache:clear"
 
 command :"files:pull" do |c|
-  c.syntax = "pave files:pull"
+  c.syntax = "pave files:pull [options]"
   c.description = "Download the project's live files directory."
-  c.action do |args|
+  c.option '-m', '--method METHOD', String, 'Specify a method: zip or rsync'
+  c.action do |args, options|
+    method = options.method || "rsync"
     remote = args.first || "live"
-    Pave::Files.pull(remote)
+    Pave::Files.pull(remote, method)
   end
 end
 
 command :"files:push" do |c|
-  c.syntax = "pave files:push"
+  c.syntax = "pave files:push [options]"
   c.description = "Upload the project's local files directory."
-  c.action do |args|
+  c.option '-m', '--method METHOD', String, 'Specify a method: zip or rsync'
+  c.action do |args, options|
+    method = options.method || "rsync"
     remote = args.first || "live"
-    Pave::Files.push(remote)
+    Pave::Files.push(remote, method)
   end
 end
 
