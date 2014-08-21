@@ -12,7 +12,7 @@ module Pave
       processes = []
       processes << Process.spawn("pave livereload #{browser}", out: $stdout, err: $stderr)
       processes << Process.spawn("sass --watch ./themes/ --style compressed", out: $stdout, err: $stderr)
-      processes << Process.spawn("coffee -wcj ./themes/#{name}/js/app.js ./themes/#{name}/js/", out: $stdout, err: $stderr)
+      processes << Process.spawn("coffee -wcj #{coffee_folder}app.js #{coffee_folder}", out: $stdout, err: $stderr)
 
       Signal.trap("INT") do
         processes.map do |pid|
@@ -27,6 +27,11 @@ module Pave
 
     def initialize(name)
       @name = name
+    end
+
+    def coffee_folder
+      coffee_path = `find ./themes -name 'app.js'`
+      coffee_path.gsub("/app.js", "/").strip
     end
 
     def install_sass
