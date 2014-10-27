@@ -63,7 +63,7 @@ module Pave
       directory = Pave::Remote.directory(remote)
       db = remote_db
       say "Remotely creating dump of #{db['name']} at #{server}:#{directory}/db/#{dump_file(:remote)}"
-      sh "ssh #{server} \"cd #{directory}/db; mysqldump -u#{db['user']} -p#{db['pass']} #{db['name']} | gzip > #{dump_file(:remote)}\""
+      sh "ssh #{server} \"cd #{directory}/db; mysqldump -h#{db['host']} -u#{db['user']} -p#{db['pass']} #{db['name']} | gzip > #{dump_file(:remote)}\""
     end
 
     def execute_remote_dump_on_local_db
@@ -76,7 +76,7 @@ module Pave
       directory = Pave::Remote.directory(remote)
       db = remote_db
       say "Remotely executing #{dump_file(:local)} on live #{db['name']}"
-      sh "ssh #{server} \"cd #{directory}/db; gzip -dc #{dump_file(:local)} | mysql -u#{db['user']} -p#{db['pass']} #{db['name']}\""
+      sh "ssh #{server} \"cd #{directory}/db; gzip -dc #{dump_file(:local)} | mysql -h#{db['host']} -u#{db['user']} -p#{db['pass']} #{db['name']}\""
     end
 
     def upload_local_dump_to_remote(remote="live")
